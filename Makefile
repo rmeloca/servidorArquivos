@@ -1,5 +1,5 @@
 CC=gcc
-LDFLAGS=
+LDFLAGS=-lpthread
 CFLAGS=-O0 -ggdb
 
 all: 

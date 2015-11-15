@@ -2,21 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "connection.h"
+#include "header/connection.h"
 
-#define BUFFER_SIZE 1024
+#define MESSAGE_SIZE 2048
 
 int main(int argc, char** argv) {
 
     //Conexão ao cliente
-    connection_t* connection;
+    Connection* connection;
 
     //host do servidor e a porta a conectar
     char* host;
     char* port;
 
     //Buffer usado para receber e enviar dados
-    uint8_t buffer[BUFFER_SIZE];
+    uint8_t buffer[MESSAGE_SIZE];
 
     //Verificar se a porta e o host foi passado como argumento
     if (argc < 3) {
@@ -45,19 +45,19 @@ int main(int argc, char** argv) {
         printf("Digite uma mensagem para o servidor: ");
 
         //ler a mensagem a ser enviada ao servidor
-        fgets(buffer, BUFFER_SIZE, stdin);
+        fgets(buffer, MESSAGE_SIZE, stdin);
 
         //subtituir \n por um terminador de string
         *(strstr(buffer, "\n")) = 0;
 
         //ter certeza que há um terminador de string no último caractere
-        buffer[BUFFER_SIZE - 1] = 0;
+        buffer[MESSAGE_SIZE - 1] = 0;
 
         //enviar a mensagem
         CONN_send(connection, buffer, strlen(buffer) + 1, 0);
 
         //aguardar o echo
-        CONN_receive(connection, buffer, BUFFER_SIZE, 0);
+        CONN_receive(connection, buffer, MESSAGE_SIZE, 0);
         printf("echo: %s\n", buffer);
 
         //verificar se enviou um "sair". Caso afirmativo, terminar o cliente.

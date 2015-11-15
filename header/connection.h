@@ -1,5 +1,5 @@
 #ifndef CONNECTION_H
-#define	CONNECTION_H
+#define CONNECTION_H
 
 #include <sys/socket.h>
 
@@ -8,13 +8,13 @@
  *  O principal objetivo é encapsular os detalhes relacionados à conexão 
  *  TCP/IP por IPv4 ou IPv6.
  */
-typedef struct connection_t{
-    int clientSock;             //O socket conectado
-    struct sockaddr* peerAddr;  //Informações sobre o endereço do computador remoto
-    socklen_t peerAddrLen;      //Tamanho dos dados do endereço do computador remoto
-    char* host;                 //Uma forma "imprimível" do endereço do computador remoto
-    char* port;                 //Uma foma "imprimível" da porta conectada ao computador remoto.
-}connection_t;
+typedef struct connection_t {
+    int clientSock; //O socket conectado
+    struct sockaddr* peerAddr; //Informações sobre o endereço do computador remoto
+    socklen_t peerAddrLen; //Tamanho dos dados do endereço do computador remoto
+    char* host; //Uma forma "imprimível" do endereço do computador remoto
+    char* port; //Uma foma "imprimível" da porta conectada ao computador remoto.
+} connection_t;
 
 /**
  * Conecta ao computador host:port que está esperando para aceitar conexões externas.
@@ -99,5 +99,5 @@ int CONN_receive(connection_t* connection, void* buffer, int bufferLen, int flag
  */
 void CONN_close(connection_t* connection);
 
-#endif	/* CONNECTION_H */
+#endif /* CONNECTION_H */
 

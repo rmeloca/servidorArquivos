@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <signal.h>
 
-#include "connection.h"
+#include "header/connection.h"
 
 int CONN_getSocket(connection_t *connection) {
     if (!connection) {
@@ -145,7 +145,7 @@ int CONN_listenTo(char* port) {
         fprintf(stderr, "Could not bind!\n");
         exit(EXIT_FAILURE);
     } else {
-        fprintf(stderr, "socket bound to %zd...\n", rp->ai_addr);
+        fprintf(stderr, "socket bound to %p...\n", rp->ai_addr);//changed
     }
 
     fcntl(sock, F_SETFD, O_NONBLOCK);

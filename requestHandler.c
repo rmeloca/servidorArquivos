@@ -29,8 +29,8 @@ void* createRequestHandler(void* args) {
 }
 
 void listenConnection(Connection* connection) {
-    uint8_t buffer[MESSAGE_SIZE];
-    CONN_receive(connection, buffer, MESSAGE_SIZE, 0);
+    uint8_t buffer[MAX_URL_SIZE];
+    CONN_receive(connection, buffer, MAX_URL_SIZE, 0);
     printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", buffer, CONN_getPeerName(connection), CONN_getPeerPort(connection), strlen(buffer));
 
     if (buffer[0] == 'l' && buffer[1] == 's') {

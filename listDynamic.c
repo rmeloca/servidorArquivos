@@ -16,16 +16,18 @@ void initializeList(List* l) {
     l->size = 0;
 }
 
-int addListLast(List* l, ItemType e) {
+int addListLast(List* l, ItemType* e) {
     return addList(l, e, l->size);
 }
 
-int addList(List* l, ItemType e, int index) {
+int addList(List* l, ItemType* e, int index) {
     if (index > sizeList(l) || index < 0) {
         return 0;
     }
     Node* node = createNode();
-    node->data = e;
+    node->data = (ItemType*) malloc(sizeof (ItemType));
+    memcpy(node->data, e, sizeof(ItemType));
+    
     node->next = NULL;
     if (isEmptyList(l)) {
         l->first = node;
@@ -82,7 +84,7 @@ int removeList(List* l, int index, ItemType* e) {
         l->first = NULL;
         l->last = NULL;
     }
-    *e = removed->data;
+    e = removed->data;
     free(node);
     free(removed);
     l->size--;
@@ -104,7 +106,7 @@ int getList(List* l, int index, ItemType* e) {
         i++;
         node = node->next;
     }
-    *e = node->data;
+    e = node->data;
     free(node);
     return 1;
 }
@@ -120,7 +122,7 @@ int setList(List* l, int index, ItemType* e) {
         i++;
         node = node->next;
     }
-    node->data = *e;
+    node->data = e;
     free(node);
     return 1;
 }
@@ -130,7 +132,7 @@ int indexOfList(List* l, ItemType* e) {
     node = l->first;
     int i = 0;
     while (node) {
-        if (node->data == *e) {
+        if (equals(node->data, e)) {
             free(node);
             return i;
         }
@@ -141,12 +143,16 @@ int indexOfList(List* l, ItemType* e) {
     return -1;
 }
 
+int equals(ItemType *e1, ItemType *e2) {
+    return e1->tipo == e2->tipo;
+}
+
 int containsList(List* l, ItemType* e) {
     Node *node = createNode();
     node = l->first;
     int i = 0;
     while (node) {
-        if (node->data == *e) {
+        if (equals(node->data, e)) {
             free(node);
             return i;
         }
@@ -169,7 +175,7 @@ void printList(List* l) {
     Node *node = createNode();
     node = l->first;
     while (node) {
-        printf("%s, ", node->data);
+        printf("%p, ", node->data);
         node = node->next;
     }
     printf("\n");

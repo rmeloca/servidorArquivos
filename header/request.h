@@ -1,14 +1,22 @@
 #pragma once
 
 #include "string.h"
-#include "server.h"
 
 typedef struct request Request;
-typedef struct tipo Tipo;
-typedef struct status Status;
+typedef struct connection_t Connection;
+typedef enum tipo Tipo;
+typedef enum status Status;
 
 #define MAX_URL_SIZE 2048
 #define MAX_DATA_SIZE 2048
+
+enum tipo {
+    LS, WGET, NONE
+};
+
+enum status {
+    READY, SENDING, SENT
+};
 
 struct request {
     Connection* connection;
@@ -16,14 +24,6 @@ struct request {
     Tipo tipo;
     Status status;
     char dados[MAX_DATA_SIZE];
-};
-
-enum tipo{
-    
-};
-
-enum status{
-    
 };
 
 Request* createRequest(Connection* connection, char* message);

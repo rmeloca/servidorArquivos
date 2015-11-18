@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="f1" displayName="Header" projectFiles="true">
+      <itemPath>header/connection.h</itemPath>
+      <itemPath>header/listDynamic.h</itemPath>
+      <itemPath>header/request.h</itemPath>
+      <itemPath>header/requestHandler.h</itemPath>
+      <itemPath>header/server.h</itemPath>
+    </logicalFolder>
     <df root="." name="0">
-      <in>client.c</in>
-      <in>connection.c</in>
-      <in>server.c</in>
+      <in>client.h</in>
     </df>
+    <logicalFolder name="f2" displayName="Source" projectFiles="true">
+      <itemPath>client.c</itemPath>
+      <itemPath>connection.c</itemPath>
+      <itemPath>listDynamic.c</itemPath>
+      <itemPath>request.c</itemPath>
+      <itemPath>requestHandler.c</itemPath>
+      <itemPath>server.c</itemPath>
+      <itemPath>worker.c</itemPath>
+    </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
@@ -41,9 +55,25 @@
       </makefileType>
       <item path="client.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="client.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="connection.c" ex="false" tool="0" flavor2="2">
       </item>
+      <item path="header/request.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="header/requestHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="header/server.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="listDynamic.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="request.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="requestHandler.c" ex="false" tool="0" flavor2="2">
+      </item>
       <item path="server.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="worker.c" ex="false" tool="0" flavor2="2">
       </item>
     </conf>
   </confs>

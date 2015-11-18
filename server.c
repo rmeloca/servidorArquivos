@@ -27,7 +27,7 @@
  * @return 
  */
 int main(int argc, char** argv) {
-    int listenSock;
+    int* listenSock;
     char* port;
 
     if (argc < 2) {
@@ -39,12 +39,12 @@ int main(int argc, char** argv) {
     initializeList(requestBuffer);
 
     port = argv[1];
+    listenSock = malloc(sizeof (int));
+    *listenSock = 0;
 
-    while (1) {
-        dispatcher(listenSock, (char*) port);
-    }
+    while (!dispatcher(listenSock, port));
 
-    close(listenSock);
+    close(*listenSock);
     return EXIT_SUCCESS;
 }
 
@@ -53,19 +53,20 @@ int main(int argc, char** argv) {
  * @param listenSock
  * @param port
  */
-void dispatcher(int listenSock, char* port) {
+int dispatcher(int* listenSock, char* port) {
     Connection* connection;
 
-    listenSock = CONN_listenTo(port);
-    connection = CONN_accept(listenSock);
+    *listenSock = CONN_listenTo(port);
+    connection = CONN_accept(*listenSock);
     if (!connection) {
         fprintf(stderr, "Não foi possível conectar ao cliente remoto na porta %s!\n", port);
-        return (EXIT_FAILURE);
+        return EXIT_FAILURE;
     }
 
     pthread_t* requestHandler;
     requestHandler = malloc(sizeof (pthread_t));
     pthread_create(requestHandler, NULL, createRequestHandler, (void*) connection);
+    return EXIT_SUCCESS;
 }
 
 int addRequest(Request* request) {
@@ -73,7 +74,7 @@ int addRequest(Request* request) {
 }
 
 Request* getRequest() {
-    Request* request;
+    Request* request = NULL;
     removeList(requestBuffer, 0, request);
     return request;
 }

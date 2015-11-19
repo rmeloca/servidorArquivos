@@ -24,6 +24,12 @@ struct request {
     Tipo tipo;
     Status status;
     char dados[MAX_DATA_SIZE];
+    int offset;
+//    int tamanho;//embutido em strlen(dados)?
+    int tamanhoTotal;
 };
 
-Request* createRequest(Connection* connection, char* message);
+Request* createRequest(Connection* connection, Tipo tipo, char* message);
+void setStatus(Request* request, Status status);
+void setDados(Request* request, char* dados, int offset);
+void setTamanhoTotal(Request* request, int tamanho);

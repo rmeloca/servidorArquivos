@@ -13,4 +13,4 @@ struct package {
     int offset;
 };
 
-Request* createPackage(Tipo tipo, char* dados,int tamanhoTotal, int offset);
+Package* createPackage(Tipo tipo, char* buffer,int tamanhoTotal, int offset);

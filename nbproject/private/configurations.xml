@@ -13,8 +13,8 @@
         <in>listDynamicDoubleSentinel.c</in>
         <in>listStatic.c</in>
       </df>
-      <in>Package.c</in>
       <in>client.h</in>
+      <in>package.c</in>
     </df>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

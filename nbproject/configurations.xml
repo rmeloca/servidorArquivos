@@ -10,8 +10,8 @@
       <itemPath>header/server.h</itemPath>
     </logicalFolder>
     <df root="." name="0">
-      <in>Package.c</in>
       <in>client.h</in>
+      <in>package.c</in>
     </df>
     <logicalFolder name="f2" displayName="Source" projectFiles="true">
       <itemPath>client.c</itemPath>
@@ -51,8 +51,6 @@
           <executablePath></executablePath>
         </makeTool>
       </makefileType>
-      <item path="Package.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="client.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="client.h" ex="false" tool="3" flavor2="0">
@@ -66,6 +64,8 @@
       <item path="header/server.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="listDynamic.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="package.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="package.h" ex="false" tool="3" flavor2="0">
       </item>

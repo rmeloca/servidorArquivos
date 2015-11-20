@@ -13,12 +13,15 @@ Request* createRequest(Connection* connection, Tipo tipo, char* message) {
         strcpy(request->url, message);
     }
     request->offset = 0;
-
     return request;
 }
 
 void setStatus(Request* request, Status status) {
     request->status = status;
+}
+
+void setTipo(Request* request, Tipo tipo) {
+    request->tipo = tipo;
 }
 
 void setDados(Request* request, char* dados, int offset) {

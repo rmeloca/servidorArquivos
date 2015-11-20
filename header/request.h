@@ -8,6 +8,7 @@ typedef enum tipo Tipo;
 typedef enum status Status;
 
 #define MAX_URL_SIZE 2048
+//max data size 2048 - 4 - 4
 #define MAX_DATA_SIZE 2048
 
 enum tipo {
@@ -20,16 +21,19 @@ enum status {
 
 struct request {
     Connection* connection;
-    char url[MAX_URL_SIZE];
     Tipo tipo;
+    char url[MAX_URL_SIZE];
     Status status;
-    char dados[MAX_DATA_SIZE];
-    int offset;
-//    int tamanho;//embutido em strlen(dados)?
+    //adicionar uma referência para uma lista de pacotes
+    //lista dinâmica ou vetor?
+    //agrupar em uma estrutura Package
     int tamanhoTotal;
+    int offset;
+    char dados[MAX_DATA_SIZE];
 };
 
 Request* createRequest(Connection* connection, Tipo tipo, char* message);
 void setStatus(Request* request, Status status);
+void setTipo(Request* request, Tipo tipo);
 void setDados(Request* request, char* dados, int offset);
 void setTamanhoTotal(Request* request, int tamanho);

@@ -20,7 +20,9 @@ void* createRequestHandler(void* args) {
     initialMessage = ".wget [FILE]\n";
     request = createRequest(connection, NONE, initialMessage);
     addRequest(request);
-    //Listar arquivos
+    initialMessage = "/\n";
+    request = createRequest(connection, LS, initialMessage);
+    addRequest(request);
 
     while (1) {
         listenConnection(connection);
@@ -30,7 +32,7 @@ void* createRequestHandler(void* args) {
 
 void listenConnection(Connection* connection) {
     //    uint8_t buffer[MAX_URL_SIZE];
-    char buffer[MAX_URL_SIZE];
+    char buffer[MAX_URL_SIZE]; //url + espaco + wget
     CONN_receive(connection, buffer, MAX_URL_SIZE, 0);
     printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", buffer, CONN_getPeerName(connection), CONN_getPeerPort(connection), strlen(buffer));
 
@@ -42,8 +44,14 @@ void listenConnection(Connection* connection) {
     if (!strcmp(buffer, "sair")) {
         return;
     }
+}
 
-    void parseMessage() {
+void interpretarMensagem(Request* request, char* message) {
+    if (message[0] == 'l' && message[1] == 's') {
+        setTipo(request, LS);
+
+    } else if (message != NULL) {
+
     }
-    
+    //split in space
 }

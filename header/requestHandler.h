@@ -6,3 +6,4 @@
 
 void* createRequestHandler(void* args);
 void listenConnection(Connection* connection);
+void interpretarMensagem(Request* request, char* message);

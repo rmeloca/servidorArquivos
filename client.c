@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
     char* port;
 
     //Buffer usado para receber e enviar dados
-//    uint8_t buffer[MESSAGE_SIZE];
+    //uint8_t buffer[MESSAGE_SIZE];
     char buffer[MESSAGE_SIZE];
 
     //Verificar se a porta e o host foi passado como argumento

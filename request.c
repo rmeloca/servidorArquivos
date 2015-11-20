@@ -5,6 +5,7 @@ Request* createRequest(Connection* connection, Tipo tipo, char* message) {
     Request* request = (Request*) malloc(sizeof (Request));
     request->connection = connection;
     request->tipo = tipo;
+    
     if (tipo == NONE) {
         strcpy(request->dados, message);
         request->tamanhoTotal = strlen(message);

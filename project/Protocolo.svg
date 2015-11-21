@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r"
-   sodipodi:docname="Protocolo.svg">
+   sodipodi:docname="Protocolo.svg"
+   inkscape:export-filename="/data/documents/NetBeansProjects/servidorArquivos/project/Protocolo.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.96696852"
-     inkscape:cx="580.4504"
-     inkscape:cy="458.55956"
+     inkscape:zoom="0.68375"
+     inkscape:cx="529.32336"
+     inkscape:cy="402.75657"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"

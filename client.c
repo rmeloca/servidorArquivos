@@ -77,8 +77,8 @@ int main(int argc, char** argv) {
 Package* parseInput(char buffer[MAX_DATA_SIZE]) {
     Package* pckg;
     int i = 0, aux = 0;
-    char tipo[MAX_URL_SIZE];
-    char dados[MAX_URL_SIZE];
+    char tipo[MAX_DATA_SIZE];
+    char dados[MAX_DATA_SIZE];
 
     while (i < MAX_DATA_SIZE) {
         if (buffer[i] == ' ') {
@@ -86,8 +86,8 @@ Package* parseInput(char buffer[MAX_DATA_SIZE]) {
             break;
         }
     }
-    strcpy(tipo, buffer, i - 1);
-    strcpy(dados, buffer + (i + 1), MAX_DATA_SIZE);
+//    strcpy(tipo, buffer, i - 1);//substr
+//    strcpy(dados, buffer + (i + 1), MAX_DATA_SIZE);//substr
 
     return pckg;
 } 

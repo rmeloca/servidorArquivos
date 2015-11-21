@@ -2,8 +2,9 @@
 
 #include "string.h"
 
-typedef struct request Request;
 typedef struct connection_t Connection;
+
+typedef struct request Request;
 typedef enum tipo Tipo;
 typedef enum status Status;
 

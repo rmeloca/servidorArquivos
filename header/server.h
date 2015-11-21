@@ -4,6 +4,8 @@
 #include "requestHandler.h"
 #include "worker.h"
 
+typedef pthread_t Thread;
+
 List* requestBuffer;
 
 int addRequest(Request* request);

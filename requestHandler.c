@@ -7,6 +7,7 @@ void* createRequestHandler(void* args) {
 
     connection = (Connection*) args;
 
+    //should I merge into a single request?
     request = createRequest(connection, WELCOME);
     addRequest(request);
     request = createRequest(connection, LS);
@@ -22,8 +23,8 @@ void listenConnection(Connection* connection) {
     Package* package = NULL;
     Request* request = NULL;
 
-    CONN_receive(connection, package, sizeof (Package), 0);
-    printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", package->dados, CONN_getPeerName(connection), CONN_getPeerPort(connection), sizeof (Package));
+    package = receivePackage(connection);
+
     switch (package->tipo) {
         case LS:
             request = createRequest(connection, LS);
@@ -37,4 +38,11 @@ void listenConnection(Connection* connection) {
             break;
     }
     addRequest(request);
+}
+
+Package* receivePackage(Connection* connection) {
+    Package* package = NULL;
+    CONN_receive(connection, package, sizeof (Package), 0);
+    printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", package->dados, CONN_getPeerName(connection), CONN_getPeerPort(connection), sizeof (Package));
+    return package;
 }

@@ -15,11 +15,6 @@
  * wget /foto.png
  * wget /dados/arquivo.csv
  * 
- * calloc(2048, sizeof(char))
- * 
- * ao conectar, exibir ls
- * 
- * shared buffer, chainedList
  * semáforos
  * 
  * @param argc
@@ -29,19 +24,30 @@
 int main(int argc, char** argv) {
     int* listenSock;
     char* port;
+    int numeroWorkers;
 
     if (argc < 2) {
         fprintf(stderr, "uso: %s porta\n", argv[0]);
         return EXIT_FAILURE;
     }
 
-    requestBuffer = createList();
-    initializeList(requestBuffer);
-
     port = argv[1];
     listenSock = malloc(sizeof (int));
     *listenSock = 0;
+    numeroWorkers = 1;
 
+    requestBuffer = createList();
+    initializeList(requestBuffer);
+
+    //Cria worker threads
+    Thread* worker;
+    int i;
+    for (i = 0; i < numeroWorkers; i++) {
+        worker = malloc(sizeof (Thread));
+        pthread_create(worker, NULL, listenBuffer, NULL);
+    }
+
+    //escuta o socket
     while (!dispatcher(listenSock, port));
 
     close(*listenSock);
@@ -63,8 +69,8 @@ int dispatcher(int* listenSock, char* port) {
         return EXIT_FAILURE;
     }
 
-    pthread_t* requestHandler;
-    requestHandler = malloc(sizeof (pthread_t));
+    Thread* requestHandler;
+    requestHandler = malloc(sizeof (Thread));
     pthread_create(requestHandler, NULL, createRequestHandler, (void*) connection);
     return EXIT_SUCCESS;
 }

@@ -12,7 +12,7 @@ typedef enum status Status;
 #define MAX_DATA_SIZE 2048
 
 enum tipo {
-    LS, WGET, NONE
+    LS, WGET, WELCOME, MAXPACKAGESIZE, CLOSECONNECTION, OTHER
 };
 
 enum status {
@@ -24,16 +24,8 @@ struct request {
     Tipo tipo;
     char url[MAX_URL_SIZE];
     Status status;
-    //adicionar uma referência para uma lista de pacotes
-    //lista dinâmica ou vetor?
-    //agrupar em uma estrutura Package
-    int tamanhoTotal;
-    int offset;
-    char dados[MAX_DATA_SIZE];
 };
 
-Request* createRequest(Connection* connection, Tipo tipo, char* message);
+Request* createRequest(Connection* connection, Tipo tipo);
 void setStatus(Request* request, Status status);
-void setTipo(Request* request, Tipo tipo);
-void setDados(Request* request, char* dados, int offset);
-void setTamanhoTotal(Request* request, int tamanho);
+void setTiDpo(Request* request, Tipo tipo);

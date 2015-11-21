@@ -24,8 +24,8 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.67625"
-     inkscape:cx="565.98891"
+     inkscape:zoom="0.87875"
+     inkscape:cx="600"
      inkscape:cy="400"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -33,10 +33,10 @@
      showborder="true"
      borderlayer="true"
      inkscape:showpageshadow="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="713"
-     inkscape:window-x="0"
-     inkscape:window-y="30"
+     inkscape:window-width="1440"
+     inkscape:window-height="875"
+     inkscape:window-x="1366"
+     inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -455,5 +455,15 @@
        width="125.23393"
        id="rect5006"
        style="fill:#008080;fill-rule:evenodd;stroke:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="-485.91751"
+       y="366.4296"
+       id="text5012"
+       sodipodi:linespacing="125%"
+       transform="translate(0,252.36218)"><tspan
+         sodipodi:role="line"
+         id="tspan5014"></tspan></text>
   </g>
 </svg>

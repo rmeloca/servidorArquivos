@@ -9,7 +9,9 @@ void* createRequestHandler(void* args) {
 
     //should I merge into a single request?
     request = createRequest(connection, WELCOME);
+    setStatus(request, READY);
     addRequest(request);
+    setStatus(request, READY);
     request = createRequest(connection, LS);
     addRequest(request);
 

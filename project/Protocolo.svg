@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.68375"
-     inkscape:cx="529.32336"
-     inkscape:cy="402.75657"
+     inkscape:zoom="0.48348426"
+     inkscape:cx="387.5101"
+     inkscape:cy="385.85971"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -240,15 +240,15 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:25.12863731px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       x="-643.30371"
-       y="813.11633"
+       x="-623.00159"
+       y="810.08301"
        id="text4930"
        sodipodi:linespacing="125%"
        transform="matrix(0.21785853,-0.97598036,0.97598036,0.21785853,0,0)"><tspan
          sodipodi:role="line"
          id="tspan4932"
-         x="-643.30371"
-         y="813.11633">maxPackageSize</tspan></text>
+         x="-623.00159"
+         y="810.08301">maxDataSize</tspan></text>
     <text
        transform="matrix(0.32450656,0.94588344,-0.94588344,0.32450656,0,0)"
        sodipodi:linespacing="125%"
@@ -437,14 +437,14 @@
        transform="matrix(0.18933866,0.98191185,-0.98191185,0.18933866,0,0)"
        sodipodi:linespacing="125%"
        id="text5002"
-       y="-358.21204"
-       x="659.29071"
+       y="-360.02805"
+       x="673.04608"
        style="font-style:normal;font-weight:normal;font-size:24.33721924px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
-         y="-358.21204"
-         x="659.29071"
+         y="-360.02805"
+         x="673.04608"
          id="tspan5004"
-         sodipodi:role="line">askMaxPackageSize</tspan></text>
+         sodipodi:role="line">askMaxDataSize</tspan></text>
     <rect
        y="347.36218"
        x="432.3609"

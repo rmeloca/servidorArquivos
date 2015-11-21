@@ -5,11 +5,15 @@
 
 typedef struct package Package;
 
+/**
+ * Objeto a trafegar pela conexão. Esta estrutura é responsável por fazer interface com o cliente e servidor
+ * O cliente envia um pacote para o servidor e o servidor responde com outro pacote
+ */
 struct package {
-    Tipo tipo;
-    char dados[MAX_DATA_SIZE];
-    int tamanhoTotal;
-    int offset;
+    Tipo tipo;//Tipo do pacote
+    char dados[MAX_DATA_SIZE];//Dados que o pacote transporta. Possui tamanho fixo
+    int tamanhoTotal;//Tamanho total dos dados. Se o número exceder MAX_DATA_SIZE, então, o pacote está fragmentado
+    int offset;//Posição do pacote (fragmento) no montante enviado.
 };
 
 /**

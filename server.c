@@ -6,21 +6,6 @@
 #include <pthread.h>
 #include "header/server.h"
 
-/**
- * Inicializa o servidor e o prepara para receber várias conexões
- * 
- * ls /
- * ls
- * ls /fotos
- * wget /foto.png
- * wget /dados/arquivo.csv
- * 
- * semáforos
- * 
- * @param argc
- * @param argv
- * @return 
- */
 int main(int argc, char** argv) {
     int* listenSock;
     char* port;
@@ -54,11 +39,6 @@ int main(int argc, char** argv) {
     return EXIT_SUCCESS;
 }
 
-/**
- * Escuta o socket e despacha a conexão para um requestHandler
- * @param listenSock
- * @param port
- */
 int dispatcher(int* listenSock, char* port) {
     Connection* connection;
 

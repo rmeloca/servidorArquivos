@@ -12,11 +12,11 @@ void setStatus(Request* request, Status status) {
     request->status = status;
 }
 
-void setTipo(Request* request, Tipo tipo) {
-    request->tipo = tipo;
-}
-
 Tipo* getTipo(char* strTipo) {
     Tipo* tipo;
     return tipo;
+}
+
+void setUrl(Request* request, char* url) {
+    strcpy(request->url, url);
 }

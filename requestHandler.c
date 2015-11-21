@@ -19,18 +19,22 @@ void* createRequestHandler(void* args) {
 }
 
 void listenConnection(Connection* connection) {
-    //    uint8_t buffer[MAX_URL_SIZE];
     Package* package = NULL;
+    Request* request = NULL;
+
     CONN_receive(connection, package, sizeof (Package), 0);
     printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", package->dados, CONN_getPeerName(connection), CONN_getPeerPort(connection), sizeof (Package));
-    /*switch package->tipo{
+    switch (package->tipo) {
         case LS:
-            
-    }*/
-    if (package->tipo == LS) {
-        //Parse path
-        //Listar arquivos
-    } else if (package->tipo == CLOSECONNECTION) {
-        return;
+            request = createRequest(connection, LS);
+            setUrl(request, package->dados);
+            setStatus(request, READY);
+            break;
+        case WGET:
+            break;
+        case CLOSECONNECTION:
+            return;
+            break;
     }
+    addRequest(request);
 }

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "package.h"
-#include "connection.h"
 
-Package* parseInput (char buffer[MESSAGE_SIZE]);
+typedef struct connection_t Connection;
+
+#define MAX_DATA_SIZE 2048
+
+Package* parseInput(char buffer[MESSAGE_SIZE]);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stdint.h>
-#include "connection.h"
 #include "server.h"
 #include "package.h"
 

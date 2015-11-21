@@ -7,12 +7,10 @@ typedef struct connection_t Connection;
 typedef enum tipo Tipo;
 typedef enum status Status;
 
-#define MAX_URL_SIZE 2048
-//max data size 2048 - 4 - 4
 #define MAX_DATA_SIZE 2048
 
 enum tipo {
-    LS, WGET, WELCOME, MAXPACKAGESIZE, CLOSECONNECTION, OTHER
+    LS, WGET, WELCOME, MAXPACKAGESIZE, FILENOTEXIST, CLOSECONNECTION, OTHER
 };
 
 enum status {
@@ -22,10 +20,11 @@ enum status {
 struct request {
     Connection* connection;
     Tipo tipo;
-    char url[MAX_URL_SIZE];
+    char url[MAX_DATA_SIZE];
     Status status;
 };
 
 Request* createRequest(Connection* connection, Tipo tipo);
 void setStatus(Request* request, Status status);
-void setTiDpo(Request* request, Tipo tipo);
+Tipo* getTipo(char* strTipo);
+void setUrl(Request* request, char* url);

@@ -2,6 +2,7 @@
 
 #include "listDynamic.h"
 #include "requestHandler.h"
+#include "worker.h"
 
 List* requestBuffer;
 

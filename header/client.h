@@ -1,5 +1,6 @@
 #pragma once
 
+#include "package.h"
 #include "connection.h"
 
-typedef struct connection_t Connection;
+Package* parseInput (char buffer[MESSAGE_SIZE]);

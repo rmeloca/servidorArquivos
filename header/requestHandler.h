@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "connection.h"
 #include "server.h"
+#include "package.h"
 
 void* createRequestHandler(void* args);
 void listenConnection(Connection* connection);

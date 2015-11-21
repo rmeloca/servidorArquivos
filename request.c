@@ -16,6 +16,7 @@ void setTipo(Request* request, Tipo tipo) {
     request->tipo = tipo;
 }
 
-Tipo* getTipo(char* tipo) {
-    
+Tipo* getTipo(char* strTipo) {
+    Tipo* tipo;
+    return tipo;
 }

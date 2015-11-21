@@ -3,8 +3,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <linux/limits.h>
-#include "header/package.h"
-#include "header/connection.h"
+#include "header/client.h"
 
 typedef struct connection_t Connection;
 
@@ -59,7 +58,7 @@ int main(int argc, char** argv) {
         //ter certeza que há um terminador de string no último caractere
         buffer[MESSAGE_SIZE - 1] = 0;
 
-        
+
         //enviar a mensagem
         CONN_send(connection, buffer, strlen(buffer) + 1, 0);
 
@@ -80,21 +79,20 @@ int main(int argc, char** argv) {
 
 }
 
-
-Package* parseInput (char buffer[MESSAGE_SIZE]){
+Package* parseInput(char buffer[MESSAGE_SIZE]) {
     Package* pckg;
     int i = 0, aux = 0;
     char tipo[MAX_URL_SIZE];
     char dados[MAX_URL_SIZE];
 
-    while(i < MESSAGE_SIZE){
-        if(buffer[i] == ' '){
+    while (i < MESSAGE_SIZE) {
+        if (buffer[i] == ' ') {
             aux = i;
             break;
         }
     }
-    strcpy(tipo,buffer,i-1);
-    strcpy(dados,buffer+(i+1),MESSAGE_SIZE);
-    
+    strcpy(tipo, buffer, i - 1);
+    strcpy(dados, buffer + (i + 1), MESSAGE_SIZE);
+
     return pckg;
 } 

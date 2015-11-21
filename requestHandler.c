@@ -20,9 +20,9 @@ void* createRequestHandler(void* args) {
 
 void listenConnection(Connection* connection) {
     //    uint8_t buffer[MAX_URL_SIZE];
-    Package* package;
+    Package* package = NULL;
     CONN_receive(connection, package, sizeof (Package), 0);
-    printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", package, CONN_getPeerName(connection), CONN_getPeerPort(connection), sizeof (Package));
+    printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", package->dados, CONN_getPeerName(connection), CONN_getPeerPort(connection), sizeof (Package));
     /*switch package->tipo{
         case LS:
             

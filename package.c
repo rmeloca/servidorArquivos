@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include <header/package.h>
+#include <stdlib.h>
+#include <string.h>
+#include "header/package.h"
 
-Package* createPackage(Tipo tipo, char* dados ,int tamanhoTotal, int offset){
-    Package* pckg = (Package*) malloc(sizeof(Package));
+Package* createPackage(Tipo tipo, char* dados, int tamanhoTotal, int offset) {
+    Package* pckg = (Package*) malloc(sizeof (Package));
 
     pckg->tipo = tipo;
-    pckg->dados = dados;
+    pckg->dados = dados;//strcpy
     pckg->tamanhoTotal = tamanhoTotal;
     pckg->offset = offset;
 

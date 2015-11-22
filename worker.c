@@ -37,4 +37,5 @@ void wget();
 
 void sendPackage(Connection* connection, Package* package) {
     CONN_send(connection, (void*) package, sizeof (package), 0);
+    free(package);
 }

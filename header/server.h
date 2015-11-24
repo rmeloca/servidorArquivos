@@ -17,8 +17,8 @@ typedef sem_t Semaphore;
  * Cada posição do buffer consiste em uma requisição do tipo Request
  */
 List* requestBuffer;
-Semaphore mutexVouMexerNaLista;
-Semaphore mutexPossoConsumir;
+Semaphore vouMexerNaLista;
+pthread_mutex_t possoConsumir;
 
 /**
  * Inicializa o servidor e o prepara para receber várias conexões

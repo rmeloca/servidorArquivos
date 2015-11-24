@@ -5,7 +5,6 @@
 typedef struct connection_t Connection;
 
 #define MAX_DATA_SIZE 2048
-
 /**
  * Estabelece conexao com o servidor a partir dos argumentos e aguarda entradas do usuário
  * @param argc
@@ -20,3 +19,4 @@ int main(int argc, char** argv);
  * @return um Pacote alocado e populado
  */
 Package* parseInput(char buffer[MAX_DATA_SIZE]);
+void packageDeals(Package* pckg);

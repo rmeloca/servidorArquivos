@@ -2,12 +2,14 @@
 
 #include "listDynamic.h"
 #include "requestHandler.h"
+#include <semaphore.h>
 #include "worker.h"
 
 /**
  * Estabelece um alias threads da biblioteca pthread.h
  */
 typedef pthread_t Thread;
+typedef sem_t Semaphore;
 
 /**
  * Buffer compartilhado entre as threads.
@@ -15,6 +17,8 @@ typedef pthread_t Thread;
  * Cada posição do buffer consiste em uma requisição do tipo Request
  */
 List* requestBuffer;
+Semaphore mutexVouMexerNaLista;
+Semaphore mutexPossoConsumir;
 
 /**
  * Inicializa o servidor e o prepara para receber várias conexões

@@ -14,7 +14,6 @@ void* createRequestHandler(void* args) {
     setStatus(request, READY);
     request = createRequest(connection, LS);
     addRequest(request);
-
     while (1) {
         listenConnection(connection);
     }

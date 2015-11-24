@@ -3,7 +3,11 @@
 #include "header/listDynamic.h"
 
 Node* createNode() {
-    return (Node*) malloc(sizeof (Node));
+    Node* node = (Node*) malloc(sizeof (Node));
+    printf("DEBUG1 ===\n");
+    node->data = (ItemType*) malloc(sizeof (ItemType));
+    printf("DEBUG2 ===\n");
+    return node;
 }
 
 List* createList() {
@@ -26,8 +30,8 @@ int addList(List* l, ItemType* e, int index) {
     }
     Node* node = createNode();
     node->data = (ItemType*) malloc(sizeof (ItemType));
-    memcpy(node->data, e, sizeof(ItemType));
-    
+    memcpy(node->data, e, sizeof (ItemType));
+
     node->next = NULL;
     if (isEmptyList(l)) {
         l->first = node;
@@ -61,6 +65,7 @@ int removeList(List* l, int index, ItemType* e) {
         return 0;
     }
     Node *node, *removed;
+    printf("DEBUGrm ===\n");
     node = createNode();
     removed = createNode();
     node = l->first;

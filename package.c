@@ -14,6 +14,19 @@ Package* createPackage(Tipo tipo, char* dados, int tamanhoTotal, int offset) {
 }
 
 Tipo getTipo(char* strTipo) {
-    Tipo tipo;
-    return tipo;
+    if (strcmp(strTipo, "WELCOME")) {
+        return WELCOME;
+    } else if (strcmp(strTipo, "LS")) {
+        return LS;
+    } else if (strcmp(strTipo, "WGET")) {
+        return WGET;
+    } else if (strcmp(strTipo, "MAXDATASIZE")) {
+        return MAXDATASIZE;
+    } else if (strcmp(strTipo, "FILENOTEXIST")) {
+        return FILENOTEXIST;
+    } else if (strcmp(strTipo, "CLOSECONNECTION")) {
+        return CLOSECONNECTION;
+    } else if (strcmp(strTipo, "OTHER")) {
+
+    }
 }

@@ -100,7 +100,7 @@ void wgetDeals(Package* pckg) {
     char numArq[3];
     sprintf(numArq, "%d", qtdWget);
     strcat(nomeArq, numArq);
-    FILE* file = fopen(nomeArq, "w+");
+    FILE* file = fopen(nomeArq, "wb");
     int tamParte = pckg->tamanhoTotal / MAX_DATA_SIZE;
     int seek = tamParte * pckg->offset;
     fseek(file, 0, seek);

@@ -4,9 +4,7 @@
 
 Node* createNode() {
     Node* node = (Node*) malloc(sizeof (Node));
-    printf("DEBUG1 ===\n");
     node->data = (ItemType*) malloc(sizeof (ItemType));
-    printf("DEBUG2 ===\n");
     return node;
 }
 

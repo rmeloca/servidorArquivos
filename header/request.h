@@ -28,6 +28,7 @@ struct request {
     Tipo tipo; //Tipo da requisição solicitada
     char url[MAX_DATA_SIZE]; //caminho absoluto da requisição
     Status status; //Status da requisição
+    int maxClientDataSize;//Tamanho máximo que o cliente suporta em cada pacote
 };
 
 /**
@@ -51,3 +52,10 @@ void setStatus(Request* request, Status status);
  * @param url
  */
 void setUrl(Request* request, char* url);
+
+/**
+ * Altera o valor maxClientDataSize de uma requisição
+ * @param request
+ * @param maxClientDataSize
+ */
+void setMaxClientDataSize(Request* request, int maxClientDataSize);

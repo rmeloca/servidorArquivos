@@ -15,3 +15,7 @@ void setStatus(Request* request, Status status) {
 void setUrl(Request* request, char* url) {
     strcpy(request->url, url);
 }
+
+void setMaxClientDataSize(Request* request, int maxClientDataSize){
+    request->maxClientDataSize = maxClientDataSize;
+}

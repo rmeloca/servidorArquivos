@@ -6,10 +6,11 @@
 #include "worker.h"
 
 /**
- * Estabelece um alias threads da biblioteca pthread.h
+ * Estabelece aliases
  */
 typedef pthread_t Thread;
 typedef sem_t Semaphore;
+typedef pthread_mutex_t Mutex;
 
 /**
  * Buffer compartilhado entre as threads.
@@ -17,20 +18,11 @@ typedef sem_t Semaphore;
  * Cada posição do buffer consiste em uma requisição do tipo Request
  */
 List* requestBuffer;
-Semaphore vouMexerNaLista;
-pthread_mutex_t possoConsumir;
+Mutex vouMexerNaLista;
+Semaphore possoConsumir;
 
 /**
  * Inicializa o servidor e o prepara para receber várias conexões
- * 
- * ls /
- * ls
- * ls /fotos
- * wget /foto.png
- * wget /dados/arquivo.csv
- * 
- * semáforos
- * 
  * @param argc
  * @param argv
  * @return 

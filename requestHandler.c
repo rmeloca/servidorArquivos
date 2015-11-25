@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "header/requestHandler.h"
 #include "stdio.h"
 
@@ -22,17 +24,37 @@ void* createRequestHandler(void* args) {
 
 void listenConnection(Connection* connection) {
     Package* package = NULL;
+    Package* replyPackage = NULL;
     Request* request = NULL;
 
     package = receivePackage(connection);
 
     switch (package->tipo) {
         case LS:
+            //askDataSize
+            request = createRequest(connection, MAXDATASIZE);
+            addRequest(request);
+            replyPackage = receivePackage(connection);
+
+            //finalize request
             request = createRequest(connection, LS);
             setUrl(request, package->dados);
+            setMaxClientDataSize(request, atoi(replyPackage->dados));
             setStatus(request, READY);
+            addRequest(request);
             break;
         case WGET:
+            //askDataSize
+            request = createRequest(connection, MAXDATASIZE);
+            addRequest(request);
+            replyPackage = receivePackage(connection);
+
+            //finalize request
+            request = createRequest(connection, WGET);
+            setUrl(request, package->dados);
+            setMaxClientDataSize(request, atoi(replyPackage->dados));
+            setStatus(request, READY);
+            addRequest(request);
             break;
         case CLOSECONNECTION:
             return;

@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
     int* listenSock;
     char* port;
     int numeroWorkers;
-
+    
     if (argc < 2) {
         fprintf(stderr, "uso: %s porta\n", argv[0]);
         return EXIT_FAILURE;
@@ -23,7 +23,8 @@ int main(int argc, char** argv) {
 
     requestBuffer = createList();
     initializeList(requestBuffer);
-    sem_init(&vouMexerNaLista, 0, 1); //Lista disponível para adições
+    
+    sem_init(&vouMexerNaLista, 0, 0); //Lista disponível para adições
     pthread_mutex_init(&possoConsumir, NULL);
 
     //Cria worker threads

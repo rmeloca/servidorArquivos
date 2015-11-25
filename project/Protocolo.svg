@@ -27,11 +27,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.456"
-     inkscape:cx="990.13158"
+     inkscape:zoom="0.4515"
+     inkscape:cx="1000"
      inkscape:cy="400"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer1"
      showgrid="false"
      showborder="true"
      borderlayer="true"
@@ -54,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -301,18 +301,18 @@
     <rect
        style="fill:#3d4680;fill-opacity:1;fill-rule:evenodd;stroke:none"
        id="rect4940"
-       width="376.66251"
+       width="342.67126"
        height="53.780743"
-       x="798.33752"
+       x="832.32874"
        y="347.36218" />
     <text
        sodipodi:linespacing="125%"
        id="text4942"
-       y="380.69769"
+       y="383.37018"
        x="89.427505"
        style="font-style:normal;font-weight:normal;font-size:33.38928223px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
-         y="380.69769"
+         y="383.37018"
          x="89.427505"
          id="tspan4944"
          sodipodi:role="line">requestHandler</tspan></text>
@@ -349,14 +349,14 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:33.38928223px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
-       x="850.85608"
-       y="380.69769"
+       x="945.98309"
+       y="386.60638"
        id="text4956"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4958"
-         x="850.85608"
-         y="380.69769">worker</tspan></text>
+         x="945.98309"
+         y="386.60638">worker</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -372,11 +372,11 @@
        sodipodi:linespacing="125%"
        id="text4964"
        y="476.71945"
-       x="35.50613"
+       x="49.760517"
        style="font-style:normal;font-weight:normal;font-size:14.62761211px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          y="476.71945"
-         x="35.50613"
+         x="49.760517"
          sodipodi:role="line"
          id="tspan4968">createRequestHandler()</tspan></text>
     <ellipse
@@ -469,9 +469,9 @@
          sodipodi:role="line">askMaxDataSize</tspan></text>
     <rect
        y="347.36218"
-       x="432.3609"
+       x="416.07883"
        height="53.780743"
-       width="125.23393"
+       width="157.79807"
        id="rect5006"
        style="fill:#3d4680;fill-opacity:1;fill-rule:evenodd;stroke:none" />
     <text
@@ -488,7 +488,7 @@
          y="366.4296" /></text>
     <g
        id="g5427"
-       transform="matrix(0.33215705,0,0,0.33215705,749.14156,538.58214)">
+       transform="matrix(0.37042037,0,0,0.37042037,651.12568,517.45639)">
       <text
          inkscape:export-ydpi="180"
          inkscape:export-xdpi="180"
@@ -540,7 +540,7 @@
          id="g4519">
         <path
            style="fill:none;stroke:#000000;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m 2004.5833,1616.9995 c 0,0 313.9864,262.6237 505.5145,276.1181 205.7497,14.4964 579.2769,-217.5453 579.2769,-217.5453"
+           d="m 2004.5833,1616.9995 c 0,0 335.9336,159.2501 517.0684,170.4822 192.5128,11.9376 567.723,-111.9094 567.723,-111.9094"
            id="path4521"
            inkscape:connector-curvature="0"
            sodipodi:nodetypes="cac" />
@@ -1808,7 +1808,7 @@
            sodipodi:nodetypes="cac"
            inkscape:connector-curvature="0"
            id="path5417"
-           d="m 2080.5429,1307.2258 c 0,0 430.8065,153.9341 649.6586,126.2082 216.3427,-27.4078 590.8085,-280.9686 590.8085,-280.9686"
+           d="m 2080.5429,1307.2258 c 0,0 506.3748,99.1226 755.2945,56.8846 173.9555,-29.5176 485.1726,-211.645 485.1726,-211.645"
            style="fill:none;stroke:#000000;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
         <path
            sodipodi:nodetypes="ccc"
@@ -1818,5 +1818,115 @@
            style="fill:none;stroke:#000000;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       </g>
     </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4421"
+       y="381.70862"
+       x="460.42706"
+       style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         y="381.70862"
+         x="460.42706"
+         id="tspan4423"
+         sodipodi:role="line">worker</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="607.96277"
+       y="379.77014"
+       id="text4425"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4427"
+         x="607.96277"
+         y="379.77014">requestHandler</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4429"
+       y="480.22711"
+       x="692.92316"
+       style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         y="480.22711"
+         x="692.92316"
+         id="tspan4431"
+         sodipodi:role="line">setters()</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="673.18549"
+       y="499.62524"
+       id="text4433"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4435"
+         x="673.18549"
+         y="499.62524">addRequest()</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="662.92841"
+       y="460.84448"
+       id="text4437"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4439"
+         x="662.92841"
+         y="460.84448">createRequest()</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4441"
+       y="461.66769"
+       x="836.05786"
+       style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         y="461.66769"
+         x="836.05786"
+         id="tspan4443"
+         sodipodi:role="line">listenBuffer()</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="830.02478"
+       y="478.6633"
+       id="text4445"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4447"
+         x="830.02478"
+         y="478.6633">sendPackage()</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4449"
+       y="478.6633"
+       x="961.83197"
+       style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         y="478.6633"
+         x="961.83197"
+         id="tspan4451"
+         sodipodi:role="line">sendPackage()</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="456.67191"
+       y="461.66769"
+       id="text4453"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4455"
+         x="456.67191"
+         y="461.66769">listenBuffer()</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4457"
+       y="478.6633"
+       x="450.63882"
+       style="font-style:normal;font-weight:normal;font-size:15.90194893px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         y="478.6633"
+         x="450.63882"
+         id="tspan4459"
+         sodipodi:role="line">sendPackage()</tspan></text>
   </g>
 </svg>

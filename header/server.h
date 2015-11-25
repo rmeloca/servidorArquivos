@@ -17,9 +17,9 @@ typedef pthread_mutex_t Mutex;
  * Lista encadeada implementada para propósitos gerais
  * Cada posição do buffer consiste em uma requisição do tipo Request
  */
-List* requestBuffer;
-Mutex vouMexerNaLista;
-Semaphore possoConsumir;
+extern List* requestBuffer;
+extern Mutex vouMexerNaLista;
+extern Semaphore possoConsumir;
 
 /**
  * Inicializa o servidor e o prepara para receber várias conexões

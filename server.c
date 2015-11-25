@@ -6,6 +6,10 @@
 #include <pthread.h>
 #include "header/server.h"
 
+List* requestBuffer;
+Mutex vouMexerNaLista;
+Semaphore possoConsumir;
+
 int main(int argc, char** argv) {
     int* listenSock;
     char* port;
@@ -24,8 +28,8 @@ int main(int argc, char** argv) {
     requestBuffer = createList();
     initializeList(requestBuffer);
     
-    sem_init(&vouMexerNaLista, 0, 0); //Lista disponível para adições
-    pthread_mutex_init(&possoConsumir, NULL);
+    sem_init(&possoConsumir, 0, 0); //Lista disponível para adições
+    pthread_mutex_init(&vouMexerNaLista, NULL);
 
     //Cria worker threads
     Thread* worker;

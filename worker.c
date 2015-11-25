@@ -40,7 +40,7 @@ void* listenBuffer(void* args) {
 }
 
 char* ls(char* url) {
-    char* retorno;
+    char* retorno = NULL;
     DIR *dir;
     struct dirent *lsdir;
 
@@ -73,7 +73,7 @@ void sendLS(Request* request) {
 
 void sendWGET(Request* request) {
     FILE* file;
-    char* data;//void*
+    char* data = NULL;//void*
     Package* package;
 
     file = fopen(getAbsolutePath(request->url), "rb");

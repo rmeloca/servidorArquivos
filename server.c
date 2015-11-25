@@ -34,6 +34,7 @@ int main(int argc, char** argv) {
         pthread_create(worker, NULL, listenBuffer, NULL);
     }
 
+    *listenSock = CONN_listenTo(port);
     //escuta o socket
     while (!dispatcher(listenSock, port));
 
@@ -45,7 +46,6 @@ int main(int argc, char** argv) {
 
 int dispatcher(int* listenSock, char* port) {
     Connection* connection;
-    *listenSock = CONN_listenTo(port);
     connection = CONN_accept(*listenSock);
     if (!connection) {
         fprintf(stderr, "Não foi possível conectar ao cliente remoto na porta %s!\n", port);

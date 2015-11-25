@@ -1,5 +1,6 @@
 #pragma once
 
+#include "package.h"
 #include "string.h"
 
 /**
@@ -7,20 +8,7 @@
  */
 typedef struct connection_t Connection;
 typedef struct request Request;
-typedef enum tipo Tipo;
 typedef enum status Status;
-
-/**
- * Limite de dados que os pacotes comportam
- */
-#define MAX_DATA_SIZE 2048
-
-/**
- * Enum que codifica os tipos de requisição atendidas e pacotes enviados
- */
-enum tipo {
-    LS, WGET, WELCOME, MAXDATASIZE, FILENOTEXIST, CLOSECONNECTION, OTHER
-};
 
 /**
  * Enum que codifica o estado de cada requisição
@@ -36,10 +24,10 @@ enum status {
  * Um worker obtém uma requisição e a transforma em um ou muitos pacotes para enviá-lo(s) pela conexão
  */
 struct request {
-    Connection* connection;//Conexão entre cliente e servidor
-    Tipo tipo;//Tipo da requisição solicitada
-    char url[MAX_DATA_SIZE];//caminho absoluto da requisição
-    Status status;//Status da requisição
+    Connection* connection; //Conexão entre cliente e servidor
+    Tipo tipo; //Tipo da requisição solicitada
+    char url[MAX_DATA_SIZE]; //caminho absoluto da requisição
+    Status status; //Status da requisição
 };
 
 /**
@@ -56,13 +44,6 @@ Request* createRequest(Connection* connection, Tipo tipo);
  * @param status
  */
 void setStatus(Request* request, Status status);
-
-/**
- * Dado uma string, codifica-o para um Tipo e o retorna.
- * @param strTipo
- * @return 
- */
-Tipo* getTipo(char* strTipo);
 
 /**
  * Altera a url de uma requisição

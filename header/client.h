@@ -5,6 +5,9 @@
 typedef struct connection_t Connection;
 
 #define MAX_DATA_SIZE 2048
+
+int qtdWget;
+
 /**
  * Estabelece conexao com o servidor a partir dos argumentos e aguarda entradas do usuário
  * @param argc
@@ -18,5 +21,7 @@ int main(int argc, char** argv);
  * @param buffer entrada
  * @return um Pacote alocado e populado
  */
-Package* parseInput(char buffer[MAX_DATA_SIZE]);
-void packageDeals(Package* pckg);
+void packageDeals(Connection* connection, Package* pckg);
+void wgetDeals(Package* pckg);
+void sendPackage(Connection* connection, Tipo tipo, char* dados);
+void parseInput(Connection* connection, char buffer[MAX_DATA_SIZE]);

@@ -5,8 +5,6 @@
 #include <linux/limits.h>
 #include "header/client.h"
 
-int qtdWget;
-
 int main(int argc, char** argv) {
     qtdWget = -1;
     //Conexão ao cliente
@@ -18,6 +16,7 @@ int main(int argc, char** argv) {
 
     //Buffer usado para receber e enviar dados
     Package* buffer;
+    char* bufferStr;
     //Verificar se a porta e o host foi passado como argumento
     if (argc < 3) {
         fprintf(stderr, "uso: %s host porta\n", argv[0]);
@@ -46,21 +45,21 @@ int main(int argc, char** argv) {
         printf("Digite uma mensagem para o servidor: ");
 
         //ler a mensagem a ser enviada ao servidor
-        fgets(buffer, MAX_DATA_SIZE, stdin);
+        fgets(bufferStr, MAX_DATA_SIZE, stdin);
 
         //subtituir \n por um terminador de string
-        *(strstr(buffer, "\n")) = 0;
+        *(strstr(bufferStr, "\n")) = 0;
 
         //ter certeza que há um terminador de string no último caractere
-        buffer[MAX_DATA_SIZE - 1] = 0;
+        bufferStr[MAX_DATA_SIZE - 1] = 0;
 
 
         //enviar a mensagem
-        parseInput(connection, buffer);
+        parseInput(connection, bufferStr);
 
         //aguardar o echo
         CONN_receive(connection, buffer, MAX_DATA_SIZE, 0);
-        packageDeals(buffer, connection);
+        packageDeals(connection, buffer);
 
         //verificar se enviou um "sair". Caso afirmativo, terminar o cliente.
         if (!strcmp(buffer, "sair")) {
@@ -75,7 +74,7 @@ int main(int argc, char** argv) {
 
 }
 
-void packageDeals(Package* pckg, Connection connection) {
+void packageDeals(Connection* connection, Package* pckg) {
     if (pckg->tipo == WELCOME) {
         printf("%s", &pckg->dados);
 
@@ -109,7 +108,7 @@ void wgetDeals(Package* pckg) {
     fclose(file);
 }
 
-void sendPackage(Connection connection, Tipo tipo, char* dados) {
+void sendPackage(Connection* connection, Tipo tipo, char* dados) {
     if (tipo == LS) {
         Package* package = createPackage(tipo, dados, strlen(dados), 0);
         CONN_send(connection, package, sizeof (Package), 0);
@@ -133,7 +132,7 @@ void sendPackage(Connection connection, Tipo tipo, char* dados) {
     }
 }
 
-void parseInput(Connection connection, char buffer[MAX_DATA_SIZE]) {
+void parseInput(Connection* connection, char buffer[MAX_DATA_SIZE]) {
     Package* pckg;
     int i = 0, aux = 0;
     char tipo[MAX_DATA_SIZE];
@@ -149,4 +148,4 @@ void parseInput(Connection connection, char buffer[MAX_DATA_SIZE]) {
     memcpy(dados, &buffer[i + 1], (MAX_DATA_SIZE - i));
     Tipo t = getTipo(tipo);
     sendPackage(connection, t, dados);
-} 
+}

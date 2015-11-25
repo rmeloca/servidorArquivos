@@ -12,3 +12,8 @@ Package* createPackage(Tipo tipo, char* dados, int tamanhoTotal, int offset) {
 
     return pckg;
 }
+
+Tipo getTipo(char* strTipo) {
+    Tipo tipo;
+    return tipo;
+}

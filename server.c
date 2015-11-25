@@ -44,8 +44,8 @@ int main(int argc, char** argv) {
     while (!dispatcher(listenSock, port));
 
     close(*listenSock);
-    sem_destroy(&vouMexerNaLista);
-    pthread_mutex_destroy(&possoConsumir);
+    sem_destroy(&possoConsumir);
+    pthread_mutex_destroy(&vouMexerNaLista);
     return EXIT_SUCCESS;
 }
 

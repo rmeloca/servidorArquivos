@@ -15,8 +15,8 @@ int main(int argc, char** argv) {
     char* port;
 
     //Buffer usado para receber e enviar dados
-    Package* buffer;
-    char* bufferStr;
+    Package* buffer = NULL;
+    char* bufferStr = NULL;
     //Verificar se a porta e o host foi passado como argumento
     if (argc < 3) {
         fprintf(stderr, "uso: %s host porta\n", argv[0]);
@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
         packageDeals(connection, buffer);
 
         //verificar se enviou um "sair". Caso afirmativo, terminar o cliente.
-        if (!strcmp(buffer, "sair")) {
+        if (!strcmp(bufferStr, "sair")) {
             break;
         }
     }
@@ -76,10 +76,10 @@ int main(int argc, char** argv) {
 
 void packageDeals(Connection* connection, Package* pckg) {
     if (pckg->tipo == WELCOME) {
-        printf("%s", &pckg->dados);
+        printf("%s", pckg->dados);
 
     } else if (pckg->tipo == LS) {
-        printf("%s", &pckg->dados);
+        printf("%s", pckg->dados);
 
     } else if (pckg->tipo == WGET) {
         wgetDeals(pckg);
@@ -89,7 +89,7 @@ void packageDeals(Connection* connection, Package* pckg) {
         printf("Arquivo solicitado não exite");
     } else if (pckg->tipo == CLOSECONNECTION) {
         //Encerrar conexao
-        printf("%s", &pckg->dados);
+        printf("%s", pckg->dados);
     } else if (pckg->tipo == OTHER) {
         //---
     }
@@ -133,7 +133,6 @@ void sendPackage(Connection* connection, Tipo tipo, char* dados) {
 }
 
 void parseInput(Connection* connection, char buffer[MAX_DATA_SIZE]) {
-    Package* pckg;
     int i = 0, aux = 0;
     char tipo[MAX_DATA_SIZE];
     char dados[MAX_DATA_SIZE];

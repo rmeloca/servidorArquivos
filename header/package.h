@@ -14,7 +14,7 @@ typedef enum tipo Tipo;
  * Enum que codifica os tipos de requisição atendidas e pacotes enviados
  */
 enum tipo {
-    LS, WGET, WELCOME, MAXDATASIZE, FILENOTEXIST, CLOSECONNECTION, OTHER
+    OTHER, WELCOME, LS, WGET, MAXDATASIZE, FILENOTEXIST, CLOSECONNECTION
 };
 
 /**

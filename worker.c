@@ -34,6 +34,11 @@ void* listenBuffer(void* args) {
             case WGET:
                 sendWGET(request);
                 break;
+            case OTHER:
+                data = "";
+                package = createPackage(OTHER, data, strlen(data), 0);
+                sendPackage(request->connection, package);
+                break;
         }
         free(request);
     }
@@ -73,12 +78,12 @@ void sendLS(Request* request) {
 
 void sendWGET(Request* request) {
     FILE* file;
-    char* data = NULL;//void*
+    char* data = NULL; //void*
     Package* package;
 
     file = fopen(getAbsolutePath(request->url), "rb");
 
-    fread(data, sizeof (char), request->maxClientDataSize, file);//void
+    fread(data, sizeof (char), request->maxClientDataSize, file); //void
     fseek(file, 6, SEEK_SET);
     package = createPackage(LS, data, strlen(data), 0);
     sendPackage(request->connection, package);

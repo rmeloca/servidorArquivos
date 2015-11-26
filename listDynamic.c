@@ -35,62 +35,62 @@ int addList(List* l, ItemType* e, int index) {
         l->first = node;
         l->last = node;
     } else {
-        Node* iterador = createNode();
+        Node* iterador;
+
         iterador = l->first;
-        int i = 0;
-        while (i < index) {
-            i++;
-            iterador = iterador->next;
-        }
+
         if (index == 0) {
             node->next = iterador;
             l->first = node;
         } else if (index == sizeList(l)) {
-            iterador->next = node;
+            l->last->next = node;
             l->last = node;
         } else {
+            int i = 1;
+            while (i < index) {
+                i++;
+                iterador = iterador->next;
+            }
             node->next = iterador->next;
             iterador->next = node;
         }
-        free(iterador);
     }
     l->size++;
     return 1;
 }
 
 int removeList(List* l, int index, ItemType* e) {
-    if (index > l->size || index < 0) {
+    if (index >= sizeList(l) || index < 0) {
         return 0;
     }
-    Node *node, *removed;
-    printf("DEBUGrm ===\n");
-    node = createNode();
-    removed = createNode();
-    node = l->first;
-    int i = 0;
-    while (i < index) {
-        i++;
-        node = node->next;
-    }
+    Node *iterador, *removed;
+
     if (index == 0) {
         removed = l->first;
         l->first = removed->next;
-    } else if (index == sizeList(l)) {
-        removed = node->next;
-        node->next = NULL;
-        l->last = node;
     } else {
-        removed = node->next;
-        node->next = removed->next;
+        iterador = l->first;
+        int i = 1;
+        while (i < index) {
+            i++;
+            iterador = iterador->next;
+        }
+        if (index == sizeList(l) - 1) {
+            removed = iterador->next;
+            iterador->next = NULL;
+            l->last = iterador;
+        } else {
+            removed = iterador->next;
+            iterador->next = removed->next;
+        }
     }
+    l->size--;
+    e = removed->data;
+    free(removed);
     if (isEmptyList(l)) {
         l->first = NULL;
         l->last = NULL;
     }
-    e = removed->data;
-    free(node);
-    free(removed);
-    l->size--;
     return 1;
 }
 

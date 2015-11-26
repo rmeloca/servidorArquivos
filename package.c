@@ -27,6 +27,7 @@ Tipo getTipo(char* strTipo) {
     } else if (strcmp(strTipo, "CLOSECONNECTION")) {
         return CLOSECONNECTION;
     } else if (strcmp(strTipo, "OTHER")) {
-
+        return OTHER;
     }
+    return OTHER;
 }

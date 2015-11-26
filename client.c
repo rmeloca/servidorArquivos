@@ -38,8 +38,9 @@ int main(int argc, char** argv) {
 
     //Aguardar a mensagem de boas vindas e imprimi-la
     CONN_receive(connection, buffer, sizeof (Package), 0);
-    if (buffer->tipo == LS);
-    printf("%s\n", buffer->dados);
+    if (buffer->tipo == LS) {
+        printf("%s\n", buffer->dados);
+    }
 
     while (1) {
         printf("Digite uma mensagem para o servidor: ");

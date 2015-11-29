@@ -1,13 +1,13 @@
 \documentclass[12pt]{article}
 
 \usepackage{sbc-template}
-
 \usepackage{graphicx,url}
+\usepackage[brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{lscape}
+\usepackage{geometry}
+\usepackage{float}
 
-%\usepackage[brazil]{babel}
-\usepackage[latin1]{inputenc}  
-
-     
 \sloppy
 
 \title{Servidor de Arquivos}
@@ -25,131 +25,111 @@
 \maketitle
 
 \begin{abstract}
-  This meta-paper describes the style to be used in articles and short papers
-  for SBC conferences. For papers in English, you should add just an abstract
-  while for the papers in Portuguese, we also ask for an abstract in
-  Portuguese (``resumo''). In both cases, abstracts should not have more than
-  10 lines and must be in the first page of the paper.
+  This report shows the development process of a file server software, since the conception, showing the designed solution until its implementation phase. This report shows project decisions and outlined obstacles.
 \end{abstract}
      
 \begin{resumo} 
-  Este meta-artigo descreve o estilo a ser usado na confecção de artigos e
-  resumos de artigos para publicação nos anais das conferências organizadas
-  pela SBC. É solicitada a escrita de resumo e abstract apenas para os artigos
-  escritos em português. Artigos em inglês deverão apresentar apenas abstract.
-  Nos dois casos, o autor deve tomar cuidado para que o resumo (e o abstract)
-  não ultrapassem 10 linhas cada, sendo que ambos devem estar na primeira
-  página do artigo.
+  Este relatório apresenta o processo de desenvolvimento de um software servidor de arquivos, desde a sua concepção, apresentando a solução projetada até a fase de implementação do mesmo. Lê-se neste decisões de projeto e obstáculos contornados.
 \end{resumo}
 
+\section{O Problema}\label{sec:problema}
 
-\section{O Problema}
+Disponibilizado no \textit{moodle}, serviço de apoio educacional, chegou-se aos alunos o problema de transformar uma aplicação do modelo cliente-servidor \textit{single-thread} em um programa que permitisse o acesso de vários clientes, bem como que cada um deles pudesse requisitar uma listagem do diretório e/ou o \textit{download} de algum arquivo presente nele, tornando-o um servidor de arquivos. Além de permitir uma \textit{thread} para cada cliente, deveria-se utilizar o paradigma produtor-consumidor \emph{n:m}, onde várias \textit{threads} produziriam requisições em um buffer compartilhado e várias \textit{threads} consumidoras tratariam devidamente cada requisição.
 
-All full papers and posters (short papers) submitted to some SBC conference,
-including any supporting documents, should be written in English or in
-Portuguese. The format paper should be A4 with single column, 3.5 cm for upper
-margin, 2.5 cm for bottom margin and 3.0 cm for lateral margins, without
-headers or footers. The main font must be Times, 12 point nominal size, with 6
-points of space before each paragraph. Page numbers must be suppressed.
+Juntamente com o exemplo, foi disponibilizado também uma bliblioteca de funcionalidades que encapsulam as especificidades do protocolo TCP/IP com a linguagem de programação C, da qual o próprio exemplo dado a utilizava.
 
-Full papers must respect the page limits defined by the conference.
-Conferences that publish just abstracts ask for \textbf{one}-page texts.
+\section{Organização da Solução}\label{sec:solucao}
 
-\section{Implementação} \label{sec:implementacao}
+De início, fazia-se necessário a diagramação do problema para dar início ao desenvolvimento da solução, pois havia a necessidade de, em primeira instância, compreender o problema e projetar a solução, além de estabelecer uma linguagem comum para os desenvolvedores. Nesse sentido, utilizou-se o diagrama de classes e alguns outros esquemas de autoria própria.
 
-The first page must display the paper title, the name and address of the
-authors, the abstract in English and ``resumo'' in Portuguese (``resumos'' are
-required only for papers written in Portuguese). The title must be centered
-over the whole page, in 16 point boldface font and with 12 points of space
-before itself. Author names must be centered in 12 point font, bold, all of
-them disposed in the same line, separated by commas and with 12 points of
-space after the title. Addresses must be centered in 12 point font, also with
-12 points of space after the authors' names. E-mail addresses should be
-written using font Courier New, 10 point nominal size, with 6 points of space
-before and 6 points of space after.
+Uma vez fornecida a biblioteca de encapsulamento do TCP/IP, já preparada para o desenvolvimento da solução, optou-se por implementar a solução na linguagem de programação C.
 
-The abstract and ``resumo'' (if is the case) must be in 12 point Times font,
-indented 0.8cm on both sides. The word \textbf{Abstract} and \textbf{Resumo},
-should be written in boldface and must precede the text.
+\subsection{Diagramação}\label{sec:diagramacao}
+
+Como o diagrama de classes é uma ferramenta de modelagem de aplicações orientadas a objetos, foi preciso fazer algumas adaptações para o desenvolvimento procedural:
+As classes com inicial maiúscula são estruturas, e seus elementos são os atributos;
+As classes com inicial minúscula são arquivos;
+Os atributos oriundos de classes-arquivos são variáveis globais;
+Os modificadores de acesso são todos públicos, uma vez que não há nenhuma proteção nas variáveis (embora tenha-se optado por fazer o acesso apenas através de ``getters" e ``setters"); Os métodos de nome create* simulam o método construtor;
+As associações representam os includes entre os arquivos;
+Tipos primitivos são mantidos e ponteiros tratados como objetos (salvo tipos enumeráveis, que também são tratados como objetos), como por exemplo String ao invés de char*;
+Associações bi-direcionais, mantêm a semântica de includes bi-direcionais.
+
+Utilizou-se no diagrama cor cinza para os elementos previamente implementados e reutilizados, tons azuis para objetos inerentes ao processamento do servidor e tom amarelo para o cliente. Azul ciano para as interfaces de abstração dos dados a serem trafegados. Azul turquesa para as threads. Azul marinho para o servidor.
+
+Segue a imagem do diagrama construído com o auxílio do \textit{software} gratuito de modelagem Astah.
+
+\newgeometry{left=0cm,bottom=0cm,right=0cm,top=0cm}
+\begin{landscape}
+\centering
+\begin{figure}[p]
+\includegraphics[width=1.4\textwidth]{ClassDiagram.png}
+\caption{Diagrama de Classes}
+\label{fig:classDiagram}
+\end{figure}
+\end{landscape}
+\restoregeometry
+
+Acima visualizou-se o diagrama de classes mostrando os arquivos e estruturas criadas, bem como os métodos e atributos que detectou-se em cada objeto. Na subseção seguinte são detalhadas as interfaces criadas.
+
+\subsection{Interfaces}
+
+Lançou-se mão das bibliotecas já implementadas \emph{lista.h}, que abstraiu os detalhes de gerenciamento de uma lista encadeada e do módulo \emph{connection.h}, que abstraiu as especificidades do TCP/IP. Com o uso das bibliotecas mencionadas permitiu-se ainda que esses módulos sejam facilmente substituídos por outros, como por exemplo a troca de uma lista encadeada para uma lista de prioridades.
+
+Trabalhando acima das camadas de \textit{software} mencionadas, ainda eram necessárias mais abstrações com a finalidade de permitir as \textit{threads} produtoras e consumidoras pudessem estabelecer um diálogo. Nesse sentido, criou-se a estrutura \textit{Request}, que congrega a conexão com o cliente (para permitir a \textit{worker-thread} responder adequadamente ao cliente), o tipo da requisição (Boas-vindas, encerramento de conexão, listagem de arquivos, \textit{download}, tamanho máximo suportado, ou outro), o caminho (para listagem de arquivos e pedido de \textit{download}), um \textit{status} para monitorar o andamento da requisição, e ainda, o valor do tamanho máximo de dados que o cliente suporta.
+
+Uma outra decisão de projeto tomada pela equipe, foi a de criar ainda uma abstração a mais para o encapsulamento da mensagem que transitaria entre o cliente e o servidor. Assim, criou-se a estrutura \textit{Package} que conta com aquele mesmo tipo enumerável da requisição, os dados contidos no pacote, um tamanho total da mensagem a ser enviada bem como seu \textit{offset}, a fim de calcular, para cada pacote, qual é a sua porção na mensagem total, além de permitir o cálculo de quantos são os pacotes no total, para cada requisição do cliente.
+
+Abaixo, segue um dos artefatos produzidos para representar o fluxo de dados durante o atendimento de uma requisição.
+
+\newpage
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1\textwidth]{dataFlow.png}
+\caption{Fluxo de dados}
+\label{fig:dataFlow}
+\end{figure}
+
+Observa-se no fluxo de dados que a mensagem é encapsulada em pacotes (para além dos segmentos, pacotes e quadros do TCP/IP), de modo que ambos cliente e servidor precisam compreender essa linguagem. Uma vez que o pacote é recebido pelo servidor na sua \textit{thread} \textit{Request Handler}, responsável pelo cliente em questão, o pacote é interpretado e transformado em uma requisição, que é posta no \textit{buffer} compartilhado entre todas as \textit{threads}. Assim que disponível, alguma das \textit{Worker-threads} por sua vez, toma a requisição, a executa e responde para o cliente em forma de pacotes.
+
+Avistava-se ainda um último problema de projeto, pois algumas requisições do cliente poderiam demandar várias respostas seguidas do servidor. A subseção seguinte discute esse ponto.
+
+\subsection{Protocolo}
+
+É verdade que utilizou-se o protocolo TCP/IP para mediar a transmissão de \textit{bytes} entre cliente e servidor e é verdade que este divide os dados em partes para enviá-lo, conforme o \textit{Maximum Transmission Unit} (MTU) da rede e ainda remonta os pacotes na ordem correta. Contudo, algumas requisições eventualmente precisariam de várias respostas ou por ser um arquivo demasiado grande ou porque o cliente suporta apenas pacotes menores.
+
+Em qualquer dos casos, precisava-se criar um protocolo de comunicação que suportasse o envio de informações \textit{multi-part}, seja para \textit{download} de arquivos, ou por requisições do tipo \emph{ls} (listagem de arquivos) em diretórios muito extensos, que, sobretudo, fosse capaz de remontar os pacotes a exemplo do TCP/IP.
+
+O problema residia no momento de perguntar ao cliente qual o tamanho máximo de dados que ele suportava, dado que a \textit{worker-thread} não tinha condições de escutar o cliente, uma vez que a \textit{thread} \textit{Request Handler} mantinha-se em escuta ao cliente. Também não seria possível que a \textit{thread} \textit{Request Handler} enviasse a resposta da pergunta para a \textit{worker thread} correta. Em todos os casos, fugia da responsabilidade da \textit{worker} escutar a conexão e fugia da responsabilidade do \textit{Request Handler} enviar pacotes.
+
+Frente a essa dificuldade, pensou-se e criou-se o protocolo que pode ser visto na imagem a seguir.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1\textwidth]{Protocolo.png}
+\caption{Protocolo de transferência \textit{multi-parts}}
+\label{fig:protocolo}
+\end{figure}
+
+A solução consiste no \textit{Request Handler} ``segurar"" os pacote de pedidos do tipo \emph{ls} e \emph{wget} e, ao invés de transformá-lo em uma requisição e colocá-lo no \textit{buffer} compartilhado, enviar para a fila de trabalho das \textit{worker-threads} uma requisição do tipo MAXPACKAGESIZE, que questiona ao cliente qual o tamanho máximo que ele suporta. Ao receber o pacote de resposta, a \textit{thread} \textit{Request Handler} acorda e pode prosseguir com o tratamento da requisição anterior, informando à \textit{worker-thread} qual o tamanho máximo de cada pacote.
+
+Tendo sido preenchidas as maiores lacunas do problema e fechadas todas as arestas no tocante à dificuldades com a estruturação da solução, já era possível implementar a solução. A seção seguinte expressa essa etapa.
+
+\section{Implementação}
+
+Dado as bibliotecas já implementadas, como mencionado na seção anterior, desenvolveu-se a solução com a linguagem de programação C.
+
+Além das abstrações já citadas, para facilitar o desenvolvimento e torná-lo mais natural, tornando-o mais próximo ao conceito de objetos, utilizou-se apelidos característicos de objetos para estruturas já nomeadas (como por exemplo \emph{Connection} ao invés de \emph{connection\_t}) e definições de métodos redundantes (como por exemplo \emph{sendPackage()} em contraposição à \emph{CONN\_send()}). Tais fatores, permitiram o encapsulamento de algumas funcionalidades e possibilidade de fácil e rápida manutenção/refatoração do código.
+
+Tendo sido mapeado os \emph{includes} no diagrama de classes, facilmente pode-se visualizar os módulos que os programas \emph{server} e \emph{client} deveriam incluir, mantendo a coerência com a distância que as partes (naturalmente) deveriam ter, com excessão da interface que os conecta, os pacotes definidos na biblioteca \emph{package.h} (que já conta com a inclusão da biblioteca \emph{connection.h}).
+
+Colaborou-se o código com o auxílio do controle de versões git, onde o integrante Rômulo responsabilizou-se pela implementação do arquivo \emph{server.c} e das duas \emph{threads} \emph{requestHandler.c} e \emph{worker.c}. O núcleo da aplicação foi desenvolvido de maneira conjunta e interativa em relação as partes. O integrante Marco responsabilizou-se por todo o arquivo \emph{client.c} além do \textit{upload} do arquivo em \textit{multi-parts}.
 
 \section{Considerações Finais}
 
-In some conferences, the papers are published on CD-ROM while only the
-abstract is published in the printed Proceedings. In this case, authors are
-invited to prepare two final versions of the paper. One, complete, to be
-published on the CD and the other, containing only the first page, with
-abstract and ``resumo'' (for papers in Portuguese).
+Considera-se, por fim, que o desenvolvimento de um projeto que conta com várias \textit{threads}, o conceito de produtor-consumidor, um \textit{buffer} compartilhado onde apresentam-se condições de corrida bem específicas, a integração de vários módulos além da comunicação inter-processos via \textit{socket}, permite no mínimo alargar os conhecimentos e fixar o aprendizado de todos esses conceitos vastamente utilizados nas mais diversas aplicações atuais. Nesse espectro, salienta-se a importância de tal desenvolvimento e, sobretudo, a fase de projeto, que tanto agrega para a visualização panorâmica deste ponto em específico da disciplina de Sistemas Operacionais.
 
-\section{Sections and Paragraphs}
-
-Section titles must be in boldface, 13pt, flush left. There should be an extra
-12 pt of space before each title. Section numbering is optional. The first
-paragraph of each section should not be indented, while the first lines of
-subsequent paragraphs should be indented by 1.27 cm.
-
-\subsection{Subsections}
-
-The subsection titles must be in boldface, 12pt, flush left.
-
-\section{Figures and Captions}\label{sec:figs}
-
-
-Figure and table captions should be centered if less than one line
-(Figure~\ref{fig:exampleFig1}), otherwise justified and indented by 0.8cm on
-both margins, as shown in Figure~\ref{fig:exampleFig2}. The caption font must
-be Helvetica, 10 point, boldface, with 6 points of space before and after each
-caption.
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=.5\textwidth]{fig1.jpg}
-\caption{A typical figure}
-\label{fig:exampleFig1}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=.3\textwidth]{fig2.jpg}
-\caption{This figure is an example of a figure caption taking more than one
-  line and justified considering margins mentioned in Section~\ref{sec:figs}.}
-\label{fig:exampleFig2}
-\end{figure}
-
-In tables, try to avoid the use of colored or shaded backgrounds, and avoid
-thick, doubled, or unnecessary framing lines. When reporting empirical data,
-do not use more decimal digits than warranted by their precision and
-reproducibility. Table caption must be placed before the table (see Table 1)
-and the font used must also be Helvetica, 10 point, boldface, with 6 points of
-space before and after each caption.
-
-\begin{table}[ht]
-\centering
-\caption{Variables to be considered on the evaluation of interaction
-  techniques}
-\label{tab:exTable1}
-\includegraphics[width=.7\textwidth]{table.jpg}
-\end{table}
-
-\section{Images}
-
-All images and illustrations should be in black-and-white, or gray tones,
-excepting for the papers that will be electronically available (on CD-ROMs,
-internet, etc.). The image resolution on paper should be about 600 dpi for
-black-and-white images, and 150-300 dpi for grayscale images.  Do not include
-images with excessive resolution, as they may take hours to print, without any
-visible difference in the result. 
-
-\section{References}
-
-Bibliographic references must be unambiguous and uniform.  We recommend giving
-the author names references in brackets, e.g. \cite{knuth:84},
-\cite{boulic:91}, and \cite{smith:99}.
-
-The references must be listed using 12 point font size, with 6 points of space
-before each reference. The first line of each reference should not be
-indented, while the subsequent should be indented by 0.5 cm.
-
-\bibliographystyle{sbc}
-\bibliography{sbc-template}
+Conclui-se que aplicações de determinada escala demandam a produção de vários artefatos, que somente são produzidos após o fiel debruçar-se nas ideias e adiantar-se a respeito de todos os problemas que são solucionados e gerados a partir delas. Toma-se como proveito o pensar em soluções que possam ser integradas a demais programas e o pensar em abstrações e interfaces que possam ser escaladas e reutilizadas.
 
 \end{document}

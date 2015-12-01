@@ -6,7 +6,7 @@
 #include "header/client.h"
 
 int main(int argc, char** argv) {
-    qtdWget = -1;
+    qtdWget = 0;
     aux = 1;
     //Conexão ao cliente
     Connection* connection;
@@ -38,22 +38,31 @@ int main(int argc, char** argv) {
         return (EXIT_FAILURE);
     }
     buffer = (Package*) packageStr;
+
     CONN_receive(connection, packageStr, sizeof (Package), 0);
     packageDeals(connection, buffer);
+
     CONN_receive(connection, packageStr, sizeof (Package), 0);
     packageDeals(connection, buffer);
+
     CONN_receive(connection, packageStr, sizeof (Package), 0);
     packageDeals(connection, buffer);
+
+    CONN_receive(connection, packageStr, sizeof (Package), 0);
+    packageDeals(connection, buffer);
+
     CONN_receive(connection, packageStr, sizeof (Package), 0);
     packageDeals(connection, buffer);
 
     while (1) {
-        if (aux) {
+        while (aux) {
             aux = 0;
             CONN_receive(connection, packageStr, sizeof (Package), 0);
+            //            buffer = (Package*) packageStr;
             packageDeals(connection, buffer);
-            CONN_receive(connection, packageStr, sizeof (Package), 0);
-            packageDeals(connection, buffer);
+            //            free(buffer);
+            //            CONN_receive(connection, packageStr, sizeof (Package), 0);
+            //            packageDeals(connection, buffer);
         }
 
         printf("Digite uma mensagem para o servidor: ");
@@ -87,12 +96,11 @@ void packageDeals(Connection* connection, Package* pckg) {
     if (pckg->tipo == WELCOME) {
         printf("%s\n", pckg->dados);
     } else if (pckg->tipo == LS) {
-        if (pckg->offset != (pckg->tamanhoTotal / MAX_DATA_SIZE)) {
-            aux = 1;
+        if (pckg->offset > (pckg->tamanhoTotal / MAX_DATA_SIZE)) {
         }
         printf("%s\n", pckg->dados);
     } else if (pckg->tipo == WGET) {
-        wgetDeals(pckg);
+        wgetDeals(connection, pckg);
     } else if (pckg->tipo == MAXDATASIZE) {
         aux = 1;
         char c[MAX_DATA_SIZE] = "2048";
@@ -110,21 +118,23 @@ void packageDeals(Connection* connection, Package* pckg) {
     }
 }
 
-void wgetDeals(Package* pckg) {
+void wgetDeals(Connection connection, Package* pckg) {
     char nomeArq[23] = "Arquivo_";
     char numArq[3];
     sprintf(numArq, "%d", qtdWget);
     strcat(nomeArq, numArq);
-    FILE* file = fopen(nomeArq, "wb");
-    int tamParte = pckg->tamanhoTotal / MAX_DATA_SIZE;
-    int seek = tamParte * pckg->offset;
+    FILE* file = fopen(nomeArq, "w+");
+    int tamParte = ((pckg->tamanhoTotal) / MAX_DATA_SIZE);
+    int seek = MAX_DATA_SIZE * pckg->offset;
     fseek(file, 0, seek);
-    fwrite(&(pckg->dados), sizeof (char), sizeof (pckg->dados), file);
+    fwrite(&(pckg->dados), MAX_DATA_SIZE, 1, file);
     fclose(file);
-    if (qtdWget != (pckg->tamanhoTotal / MAX_DATA_SIZE)) {
+    sendPackage(connection, OTHER, "ACK");
+    if (pckg->offset < tamParte) {
         aux = 1;
     } else {
-        qtdWget = -1;
+        printf("Download concluido");
+        qtdWget++;
     }
 }
 
@@ -164,8 +174,12 @@ void parseInput(Connection* connection, char buffer[MAX_DATA_SIZE]) {
         }
         i++;
     }
-    memcpy(&tipo, &buffer[0], i);
-    memcpy(&dados, &buffer[i + 1], (MAX_DATA_SIZE - i));
-    Tipo t = getTipo(tipo);
-    sendPackage(connection, t, dados);
+    if (i < MAX_DATA_SIZE) {
+        memcpy(&tipo, &buffer[0], i);
+        memcpy(&dados, &buffer[i + 1], (MAX_DATA_SIZE - i));
+
+        Tipo t = getTipo(tipo);
+        sendPackage(connection, t, dados);
+
+    }
 }

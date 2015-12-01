@@ -24,7 +24,12 @@ void* createRequestHandler(void* args) {
     setMaxClientDataSize(request, maxClientDataSize);
     addRequest(request);
     while (1) {
+        request->count_mutex = malloc();
+        request->count_mutex = malloc();
+        
+        //malloc  init
         listenConnection(connection);
+        //lock cond destroy
     }
     CONN_close(connection);
 }

@@ -96,20 +96,32 @@ void sendLS(Request* request) {
 
 void sendWGET(Request* request) {
     FILE* file;
-    char* data = "";
     Package* package;
-
-    file = fopen(getAbsolutePath(request->url), "rb");
+    int tamanho;
+    int offset = 0;
+    char* url = getAbsolutePath(request->url);
+    file = fopen(url, "r");
 
     if (file != NULL) {
-        fread(data, sizeof (char), request->maxClientDataSize, file); //void
-        //        fseek(file, request->maxClientDataSize, SEEK_CUR);
+        //Vai para ultima posicao do arquivo
+        fseek(file, 0, SEEK_END);
+        // pega a posição corrente de leitura no arquivo
+        tamanho = ftell(file);
+        fseek(file, 0, 0);
+
+        char data[2048];
+        while ((offset * request->maxClientDataSize) < tamanho) {
+            fread(data, 1, 2048, file);
+            package = createPackage(WGET, data, tamanho, offset);
+            sendPackage(request->connection, package);
+            offset++;
+            receivePackage(request->connection);
+            
+        }
     }
-    package = createPackage(WGET, data, strlen(data), 0);
-    sendPackage(request->connection, package);
 }
 
-void sendPackage(Connection* connection, Package* package) {
+void sendPackage(Connection* connection, Package * package) {
     CONN_send(connection, package, sizeof (Package), 0);
     free(package);
 }

@@ -1,12 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "header/package.h"
+#include "header/client.h"
 
 Package* createPackage(Tipo tipo, char* dados, int tamanhoTotal, int offset) {
     Package* pckg = (Package*) malloc(sizeof (Package));
 
     pckg->tipo = tipo;
-    strcpy(pckg->dados, dados);
+    memcpy(pckg->dados, dados, MAX_DATA_SIZE);
     pckg->tamanhoTotal = tamanhoTotal;
     pckg->offset = offset;
 
@@ -26,8 +27,7 @@ Tipo getTipo(char* strTipo) {
         return FILENOTEXIST;
     } else if (!strcmp(strTipo, "closeconection")) {
         return CLOSECONNECTION;
-    } else if (strcmp(strTipo, "other")) {
+    } else {
         return OTHER;
     }
-    return OTHER;
 }

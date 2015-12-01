@@ -25,10 +25,12 @@ enum status {
  */
 struct request {
     Connection* connection; //Conexão entre cliente e servidor
+    pthread_mutex_t count_mutex;
+    pthread_cond_t count_threshold_cv;
     Tipo tipo; //Tipo da requisição solicitada
     char url[MAX_DATA_SIZE]; //caminho absoluto da requisição
     Status status; //Status da requisição
-    int maxClientDataSize;//Tamanho máximo que o cliente suporta em cada pacote
+    int maxClientDataSize; //Tamanho máximo que o cliente suporta em cada pacote
 };
 
 /**

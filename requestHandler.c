@@ -6,6 +6,7 @@
 void* createRequestHandler(void* args) {
     Connection* connection;
     Request* request;
+    Package* replyPackage;
 
     connection = (Connection*) args;
 
@@ -13,8 +14,15 @@ void* createRequestHandler(void* args) {
     request = createRequest(connection, WELCOME);
     setStatus(request, READY);
     addRequest(request);
+
+    request = createRequest(connection, MAXDATASIZE);
     setStatus(request, READY);
+    addRequest(request);
+
+    replyPackage = receivePackage(connection);
     request = createRequest(connection, LS);
+    setUrl(request, "/");
+    setMaxClientDataSize(request, atoi(replyPackage->dados));
     addRequest(request);
     while (1) {
         listenConnection(connection);
@@ -65,7 +73,9 @@ void listenConnection(Connection* connection) {
 
 Package* receivePackage(Connection* connection) {
     Package* package = NULL;
-    CONN_receive(connection, package, sizeof (Package), 0);
+    char packageStr[sizeof (Package)];
+    CONN_receive(connection, packageStr, sizeof (Package), 0);
+    package = (Package*) packageStr;
     printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", package->dados, CONN_getPeerName(connection), CONN_getPeerPort(connection), sizeof (Package));
     return package;
 }

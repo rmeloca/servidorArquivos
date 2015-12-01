@@ -7,6 +7,7 @@
 
 int main(int argc, char** argv) {
     qtdWget = -1;
+    aux = 1;
     //Conexão ao cliente
     Connection* connection;
 
@@ -16,7 +17,8 @@ int main(int argc, char** argv) {
 
     //Buffer usado para receber e enviar dados
     Package* buffer = NULL;
-    char* bufferStr = NULL;
+    char packageStr[sizeof (Package)];
+    char bufferStr[MAX_DATA_SIZE];
     //Verificar se a porta e o host foi passado como argumento
     if (argc < 3) {
         fprintf(stderr, "uso: %s host porta\n", argv[0]);
@@ -35,14 +37,25 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Não foi possível conectar a %s:%s!\n", host, port);
         return (EXIT_FAILURE);
     }
-
-    //Aguardar a mensagem de boas vindas e imprimi-la
-    CONN_receive(connection, buffer, sizeof (Package), 0);
-    if (buffer->tipo == LS) {
-        printf("%s\n", buffer->dados);
-    }
+    buffer = (Package*) packageStr;
+    CONN_receive(connection, packageStr, sizeof (Package), 0);
+    packageDeals(connection, buffer);
+    CONN_receive(connection, packageStr, sizeof (Package), 0);
+    packageDeals(connection, buffer);
+    CONN_receive(connection, packageStr, sizeof (Package), 0);
+    packageDeals(connection, buffer);
+    CONN_receive(connection, packageStr, sizeof (Package), 0);
+    packageDeals(connection, buffer);
+    CONN_receive(connection, packageStr, sizeof (Package), 0);
+    packageDeals(connection, buffer);
 
     while (1) {
+        if (aux) {
+            aux = 0;
+            CONN_receive(connection, packageStr, sizeof (Package), 0);
+            packageDeals(connection, buffer);
+        }
+
         printf("Digite uma mensagem para o servidor: ");
 
         //ler a mensagem a ser enviada ao servidor
@@ -54,13 +67,8 @@ int main(int argc, char** argv) {
         //ter certeza que há um terminador de string no último caractere
         bufferStr[MAX_DATA_SIZE - 1] = 0;
 
-
         //enviar a mensagem
         parseInput(connection, bufferStr);
-
-        //aguardar o echo
-        CONN_receive(connection, buffer, MAX_DATA_SIZE, 0);
-        packageDeals(connection, buffer);
 
         //verificar se enviou um "sair". Caso afirmativo, terminar o cliente.
         if (!strcmp(bufferStr, "sair")) {
@@ -78,14 +86,20 @@ int main(int argc, char** argv) {
 void packageDeals(Connection* connection, Package* pckg) {
     if (pckg->tipo == WELCOME) {
         printf("%s", pckg->dados);
-
     } else if (pckg->tipo == LS) {
+        if (pckg->offset != (pckg->tamanhoTotal / MAX_DATA_SIZE)) {
+            aux = 1;
+        }
         printf("%s", pckg->dados);
-
     } else if (pckg->tipo == WGET) {
         wgetDeals(pckg);
     } else if (pckg->tipo == MAXDATASIZE) {
-        //send
+        aux = 1;
+        char c[MAX_DATA_SIZE] = "2048";
+//        sprintf(c, "%d", MAX_DATA_SIZE);
+//        strcat(c, "\0");
+        printf("MAX_DATA_SIZE enviado");
+        sendPackage(connection,pckg->tipo,c);
     } else if (pckg->tipo == FILENOTEXIST) {
         printf("Arquivo solicitado não exite");
     } else if (pckg->tipo == CLOSECONNECTION) {
@@ -107,6 +121,11 @@ void wgetDeals(Package* pckg) {
     fseek(file, 0, seek);
     fwrite(&(pckg->dados), sizeof (char), sizeof (pckg->dados), file);
     fclose(file);
+    if (qtdWget != (pckg->tamanhoTotal / MAX_DATA_SIZE)) {
+        aux = 1;
+    } else {
+        qtdWget = -1;
+    }
 }
 
 void sendPackage(Connection* connection, Tipo tipo, char* dados) {
@@ -134,18 +153,19 @@ void sendPackage(Connection* connection, Tipo tipo, char* dados) {
 }
 
 void parseInput(Connection* connection, char buffer[MAX_DATA_SIZE]) {
-    int i = 0, aux = 0;
-    char tipo[MAX_DATA_SIZE];
-    char dados[MAX_DATA_SIZE];
+    int i = 0;
+    char tipo[MAX_DATA_SIZE] ="";
+    char dados[MAX_DATA_SIZE]="";
 
     while (i < MAX_DATA_SIZE) {
         if (buffer[i] == ' ') {
             aux = i;
             break;
         }
+        i++;
     }
-    memcpy(tipo, &buffer, i);
-    memcpy(dados, &buffer[i + 1], (MAX_DATA_SIZE - i));
+    memcpy(&tipo, &buffer[0], i);
+    memcpy(&dados, &buffer[i + 1], (MAX_DATA_SIZE - i));
     Tipo t = getTipo(tipo);
     sendPackage(connection, t, dados);
 }

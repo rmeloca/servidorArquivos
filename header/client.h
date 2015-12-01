@@ -7,7 +7,7 @@ typedef struct connection_t Connection;
 #define MAX_DATA_SIZE 2048
 
 int qtdWget;
-
+int aux;
 /**
  * Estabelece conexao com o servidor a partir dos argumentos e aguarda entradas do usuário
  * @param argc

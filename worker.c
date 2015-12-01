@@ -34,6 +34,11 @@ void* listenBuffer(void* args) {
             case WGET:
                 sendWGET(request);
                 break;
+            case MAXDATASIZE:
+                data = "";
+                package = createPackage(MAXDATASIZE, data, strlen(data), 0);
+                sendPackage(request->connection, package);
+                break;
             case OTHER:
                 data = "";
                 package = createPackage(OTHER, data, strlen(data), 0);
@@ -45,24 +50,29 @@ void* listenBuffer(void* args) {
 }
 
 char* ls(char* url) {
-    char* retorno = NULL;
     DIR *dir;
-    struct dirent *lsdir;
-
+    struct dirent lsdir;
+    struct dirent *res = NULL;
     dir = opendir(url);
 
+    char * ret = malloc(sizeof(char) * MAX_DATA_SIZE);
+    ret[0] = 0;
+    
     /* print all the files and directories within directory */
-    while ((lsdir = readdir(dir)) != NULL) {
-        printf("%s\n", lsdir->d_name);
-        strcat(retorno, lsdir->d_name);
+    readdir_r(dir, &lsdir, &res);
+    while (res != NULL) {
+//        printf("%s\n", (*res)->d_name);
+        strcat(ret, (res)->d_name);
+        strcat(ret, "\n");
+        readdir_r(dir, &lsdir, &res);
     }
     closedir(dir);
-    return retorno;
+    return ret;
 }
 
 char* getAbsolutePath(char* relativePath) {
-    char* data;
-    data = "./server";
+    char* data = (char*) calloc(MAXDATASIZE, sizeof (char));
+    strcpy(data, "./files");
     strcat(data, relativePath);
     return data;
 }
@@ -90,6 +100,6 @@ void sendWGET(Request* request) {
 }
 
 void sendPackage(Connection* connection, Package* package) {
-    CONN_send(connection, (void*) package, sizeof (package), 0);
+    CONN_send(connection, package, sizeof (Package), 0);
     free(package);
 }

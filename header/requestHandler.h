@@ -27,3 +27,10 @@ void listenConnection(Connection* connection);
  * @return Pacote recebido do cliente
  */
 Package* receivePackage(Connection* connection);
+
+/**
+ * Pergunta ao cliente qual o tamanho máximo de pacote que ele suporta
+ * @param connection
+ * @return 
+ */
+int askMaxClientDataSize(Connection* connection);

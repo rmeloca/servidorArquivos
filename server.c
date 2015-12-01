@@ -15,15 +15,16 @@ int main(int argc, char** argv) {
     char* port;
     int numeroWorkers;
 
-    if (argc < 2) {
-        fprintf(stderr, "uso: %s porta\n", argv[0]);
+    if (argc < 3) {
+        fprintf(stderr, "uso: %s porta workers\n", argv[0]);
         return EXIT_FAILURE;
     }
 
     port = argv[1];
     listenSock = malloc(sizeof (int));
     *listenSock = 0;
-    numeroWorkers = 1;
+    
+    numeroWorkers = atoi(argv[2]);
 
     requestBuffer = createList();
     initializeList(requestBuffer);
@@ -75,12 +76,7 @@ Request* getRequest() {
     Request* request = NULL;
     sem_wait(&possoConsumir);
     pthread_mutex_lock(&vouMexerNaLista);
-//    removeList(requestBuffer, 0, request);
 
-    /**
-     * Não faço ideia de porque o removeList não era capaz de alterar o valor de request.
-     * Executei as instruções fora da função
-     */
     Node* removed;
     removed = requestBuffer->first;
     requestBuffer->first = removed->next;

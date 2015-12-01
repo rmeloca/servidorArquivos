@@ -12,19 +12,19 @@ void* listenBuffer(void* args) {
         request = getRequest(); //sleep while isnt any request to process
         switch (request->tipo) {
             case WELCOME:
-                data = "Conexão estabelecida\n";
+                data = "Conexão estabelecida";
                 package = createPackage(WELCOME, data, strlen(data), 0);
                 sendPackage(request->connection, package);
 
-                data = "MRFileServer 0.1\n";
+                data = "MRFileServer 0.1";
                 package = createPackage(WELCOME, data, strlen(data), 0);
                 sendPackage(request->connection, package);
 
-                data = ".ls [PATH]\n";
+                data = ".ls [PATH]";
                 package = createPackage(WELCOME, data, strlen(data), 0);
                 sendPackage(request->connection, package);
 
-                data = ".wget [FILE]\n";
+                data = ".wget [FILE]";
                 package = createPackage(WELCOME, data, strlen(data), 0);
                 sendPackage(request->connection, package);
                 break;
@@ -44,6 +44,14 @@ void* listenBuffer(void* args) {
                 package = createPackage(OTHER, data, strlen(data), 0);
                 sendPackage(request->connection, package);
                 break;
+            case FILENOTEXIST:
+                data = "";
+                package = createPackage(FILENOTEXIST, data, strlen(data), 0);
+                sendPackage(request->connection, package);
+                break;
+            case CLOSECONNECTION:
+                return package;
+                break;
         }
         free(request);
     }
@@ -55,13 +63,13 @@ char* ls(char* url) {
     struct dirent *res = NULL;
     dir = opendir(url);
 
-    char * ret = malloc(sizeof(char) * MAX_DATA_SIZE);
+    char * ret = malloc(sizeof (char) * MAX_DATA_SIZE);
     ret[0] = 0;
-    
+
     /* print all the files and directories within directory */
     readdir_r(dir, &lsdir, &res);
     while (res != NULL) {
-//        printf("%s\n", (*res)->d_name);
+        //        printf("%s\n", (*res)->d_name);
         strcat(ret, (res)->d_name);
         strcat(ret, "\n");
         readdir_r(dir, &lsdir, &res);
@@ -79,7 +87,7 @@ char* getAbsolutePath(char* relativePath) {
 
 void sendLS(Request* request) {
     Package* package;
-    char* data;
+    char* data = "";
 
     data = ls(getAbsolutePath(request->url));
     package = createPackage(LS, data, strlen(data), 0);
@@ -88,14 +96,16 @@ void sendLS(Request* request) {
 
 void sendWGET(Request* request) {
     FILE* file;
-    char* data = NULL; //void*
+    char* data = "";
     Package* package;
 
     file = fopen(getAbsolutePath(request->url), "rb");
 
-    fread(data, sizeof (char), request->maxClientDataSize, file); //void
-    fseek(file, 6, SEEK_SET);
-    package = createPackage(LS, data, strlen(data), 0);
+    if (file != NULL) {
+        fread(data, sizeof (char), request->maxClientDataSize, file); //void
+        //        fseek(file, request->maxClientDataSize, SEEK_CUR);
+    }
+    package = createPackage(WGET, data, strlen(data), 0);
     sendPackage(request->connection, package);
 }
 

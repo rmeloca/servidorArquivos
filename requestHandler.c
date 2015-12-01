@@ -6,7 +6,7 @@
 void* createRequestHandler(void* args) {
     Connection* connection;
     Request* request;
-    Package* replyPackage;
+    int maxClientDataSize;
 
     connection = (Connection*) args;
 
@@ -15,14 +15,13 @@ void* createRequestHandler(void* args) {
     setStatus(request, READY);
     addRequest(request);
 
-    request = createRequest(connection, MAXDATASIZE);
-    setStatus(request, READY);
-    addRequest(request);
+    //to send ls
+    maxClientDataSize = askMaxClientDataSize(connection);
 
-    replyPackage = receivePackage(connection);
+    //finalize request
     request = createRequest(connection, LS);
     setUrl(request, "/");
-    setMaxClientDataSize(request, atoi(replyPackage->dados));
+    setMaxClientDataSize(request, maxClientDataSize);
     addRequest(request);
     while (1) {
         listenConnection(connection);
@@ -32,40 +31,37 @@ void* createRequestHandler(void* args) {
 
 void listenConnection(Connection* connection) {
     Package* package = NULL;
-    Package* replyPackage = NULL;
     Request* request = NULL;
+    int maxClientDataSize;
+    char* url;
+    Tipo tipo;
 
     package = receivePackage(connection);
+    strcpy(url, package->dados);
+    tipo = package->tipo;
+    maxClientDataSize = askMaxClientDataSize(connection);
 
-    switch (package->tipo) {
+    //finalize request
+    switch (tipo) {
         case LS:
-            //askDataSize
-            request = createRequest(connection, MAXDATASIZE);
-            addRequest(request);
-            replyPackage = receivePackage(connection);
-
-            //finalize request
             request = createRequest(connection, LS);
-            setUrl(request, package->dados);
-            setMaxClientDataSize(request, atoi(replyPackage->dados));
+            setUrl(request, url);
+            setMaxClientDataSize(request, maxClientDataSize);
             setStatus(request, READY);
-            addRequest(request);
             break;
         case WGET:
-            //askDataSize
-            request = createRequest(connection, MAXDATASIZE);
-            addRequest(request);
-            replyPackage = receivePackage(connection);
-
             //finalize request
             request = createRequest(connection, WGET);
-            setUrl(request, package->dados);
-            setMaxClientDataSize(request, atoi(replyPackage->dados));
+            setUrl(request, url);
+            setMaxClientDataSize(request, maxClientDataSize);
             setStatus(request, READY);
-            addRequest(request);
             break;
         case CLOSECONNECTION:
             return;
+            break;
+        default:
+            request = createRequest(connection, OTHER);
+            setStatus(request, READY);
             break;
     }
     addRequest(request);
@@ -78,4 +74,14 @@ Package* receivePackage(Connection* connection) {
     package = (Package*) packageStr;
     printf("recebi '%s' do cliente (%s:%s)... (len = %zd)\n", package->dados, CONN_getPeerName(connection), CONN_getPeerPort(connection), sizeof (Package));
     return package;
+}
+
+int askMaxClientDataSize(Connection* connection) {
+    Request* request = NULL;
+    Package* package = NULL;
+
+    request = createRequest(connection, MAXDATASIZE);
+    addRequest(request);
+    package = receivePackage(connection);
+    return atoi(package->dados);
 }

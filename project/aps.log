@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.11.22)  28 NOV 2015 23:53
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.11.22)  1 DEC 2015 11:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -341,11 +341,11 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <13> not available
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-<ClassDiagram.png, id=16, 1494.33281pt x 1049.42062pt>
+<ClassDiagram.png, id=16, 1494.33281pt x 1073.51062pt>
 File: ClassDiagram.png Graphic file (type png)
  <use ClassDiagram.png>
 Package pdftex.def Info: ClassDiagram.png used on input line 66.
-(pdftex.def)             Requested size: 836.50737pt x 587.44736pt.
+(pdftex.def)             Requested size: 836.50737pt x 600.93253pt.
 LaTeX Font Info:    Try loading font information for OT1+phv on input line 67.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
@@ -355,7 +355,7 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <10> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 67.
 
 
-LaTeX Warning: Float too large for page by 14.1094pt on input line 69.
+LaTeX Warning: Float too large for page by 27.59457pt on input line 69.
 
 [3 <./ClassDiagram.png>] [4
 
@@ -396,7 +396,7 @@ hare/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive
 /fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
 w/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a
 .pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on aps.pdf (7 pages, 591144 bytes).
+Output written on aps.pdf (7 pages, 592975 bytes).
 PDF statistics:
  72 PDF objects out of 1000 (max. 8388607)
  47 compressed objects within 1 object stream

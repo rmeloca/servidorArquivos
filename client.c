@@ -46,12 +46,12 @@ int main(int argc, char** argv) {
     packageDeals(connection, buffer);
     CONN_receive(connection, packageStr, sizeof (Package), 0);
     packageDeals(connection, buffer);
-    CONN_receive(connection, packageStr, sizeof (Package), 0);
-    packageDeals(connection, buffer);
 
     while (1) {
         if (aux) {
             aux = 0;
+            CONN_receive(connection, packageStr, sizeof (Package), 0);
+            packageDeals(connection, buffer);
             CONN_receive(connection, packageStr, sizeof (Package), 0);
             packageDeals(connection, buffer);
         }
@@ -85,26 +85,26 @@ int main(int argc, char** argv) {
 
 void packageDeals(Connection* connection, Package* pckg) {
     if (pckg->tipo == WELCOME) {
-        printf("%s", pckg->dados);
+        printf("%s\n", pckg->dados);
     } else if (pckg->tipo == LS) {
         if (pckg->offset != (pckg->tamanhoTotal / MAX_DATA_SIZE)) {
             aux = 1;
         }
-        printf("%s", pckg->dados);
+        printf("%s\n", pckg->dados);
     } else if (pckg->tipo == WGET) {
         wgetDeals(pckg);
     } else if (pckg->tipo == MAXDATASIZE) {
         aux = 1;
         char c[MAX_DATA_SIZE] = "2048";
-//        sprintf(c, "%d", MAX_DATA_SIZE);
-//        strcat(c, "\0");
-        printf("MAX_DATA_SIZE enviado");
-        sendPackage(connection,pckg->tipo,c);
+        //        sprintf(c, "%d", MAX_DATA_SIZE);
+        //        strcat(c, "\0");
+        printf("MAX_DATA_SIZE enviado\n");
+        sendPackage(connection, pckg->tipo, c);
     } else if (pckg->tipo == FILENOTEXIST) {
-        printf("Arquivo solicitado não exite");
+        printf("Arquivo solicitado não exite\n");
     } else if (pckg->tipo == CLOSECONNECTION) {
         //Encerrar conexao
-        printf("%s", pckg->dados);
+        printf("%s\n", pckg->dados);
     } else if (pckg->tipo == OTHER) {
         //---
     }
@@ -154,8 +154,8 @@ void sendPackage(Connection* connection, Tipo tipo, char* dados) {
 
 void parseInput(Connection* connection, char buffer[MAX_DATA_SIZE]) {
     int i = 0;
-    char tipo[MAX_DATA_SIZE] ="";
-    char dados[MAX_DATA_SIZE]="";
+    char tipo[MAX_DATA_SIZE] = "";
+    char dados[MAX_DATA_SIZE] = "";
 
     while (i < MAX_DATA_SIZE) {
         if (buffer[i] == ' ') {

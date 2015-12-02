@@ -22,6 +22,6 @@ int main(int argc, char** argv);
  * @return um Pacote alocado e populado
  */
 void packageDeals(Connection* connection, Package* pckg);
-void wgetDeals(Package* pckg);
+void wgetDeals(Connection* connection, Package* pckg);
 void sendPackage(Connection* connection, Tipo tipo, char* dados);
 void parseInput(Connection* connection, char buffer[MAX_DATA_SIZE]);

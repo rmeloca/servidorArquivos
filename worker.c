@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <pthread.h>
 #include "header/worker.h"
 
 void* listenBuffer(void* args) {
@@ -10,6 +11,9 @@ void* listenBuffer(void* args) {
 
     while (1) {
         request = getRequest(); //sleep while isnt any request to process
+
+        pthread_mutex_lock(request->count_mutex);
+
         switch (request->tipo) {
             case WELCOME:
                 data = "Conexão estabelecida";
@@ -54,6 +58,9 @@ void* listenBuffer(void* args) {
                 break;
         }
         free(request);
+
+        pthread_cond_signal(request->count_threshold_cv);
+        pthread_mutex_unlock(request->count_mutex);
     }
 }
 
@@ -69,7 +76,6 @@ char* ls(char* url) {
     /* print all the files and directories within directory */
     readdir_r(dir, &lsdir, &res);
     while (res != NULL) {
-        //        printf("%s\n", (*res)->d_name);
         strcat(ret, (res)->d_name);
         strcat(ret, "\n");
         readdir_r(dir, &lsdir, &res);
@@ -116,7 +122,7 @@ void sendWGET(Request* request) {
             sendPackage(request->connection, package);
             offset++;
             receivePackage(request->connection);
-            
+
         }
     }
 }

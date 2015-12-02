@@ -118,7 +118,7 @@ void packageDeals(Connection* connection, Package* pckg) {
     }
 }
 
-void wgetDeals(Connection connection, Package* pckg) {
+void wgetDeals(Connection* connection, Package* pckg) {
     char nomeArq[23] = "Arquivo_";
     char numArq[3];
     sprintf(numArq, "%d", qtdWget);
@@ -133,7 +133,7 @@ void wgetDeals(Connection connection, Package* pckg) {
     if (pckg->offset < tamParte) {
         aux = 1;
     } else {
-        printf("Download concluido");
+        printf("Download concluido\n");
         qtdWget++;
     }
 }
@@ -156,9 +156,9 @@ void sendPackage(Connection* connection, Tipo tipo, char* dados) {
     } else if (tipo == CLOSECONNECTION) {
         Package* package = createPackage(tipo, dados, strlen(dados), 0);
         CONN_send(connection, package, sizeof (Package), 0);
-
-    } else if (tipo == OTHER) {
-        //---
+    } else {
+        Package* package = createPackage(tipo, dados, strlen(dados), 0);
+        CONN_send(connection, package, sizeof (Package), 0);
     }
 }
 
